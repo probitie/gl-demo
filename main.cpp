@@ -3,7 +3,7 @@
 
 
 // https://www.youtube.com/watch?v=45MIykWJ-C4
-// 22:14 timecode
+// 22:14 timecode   / from 12-30 to 15-30
 
 
 
@@ -80,12 +80,12 @@ int main()
 
 
 	// ------------- triange vertices ----------------
-	GLfloat sqrt3_by_3 = GLfloat(sqrt(3)) / 3;
+	// Vertices coordinates
 	GLfloat vertices[] =
 	{
-		-.5f, -.5f * sqrt3_by_3, .0f,
-		 .5f, -.5f * sqrt3_by_3, .0f,
-		 .0f,  1.f * sqrt3_by_3, .0f,
+		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
+		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
+		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f // Upper corner
 	};
 	// ------------- ---------------- ----------------
 
@@ -128,6 +128,43 @@ int main()
 	//		===== =============== ======
 
 
+
+	//		===== create vertex object ======
+
+	// only one object - a triangle, so we ain't need an array of VBO
+	// it stores actual info about a figure (vertices, colors etc)
+	ref VAO, VBO;
+
+
+	// add VAO - to tell gpu how to interpret VBO - what are vertices, what are colors
+	// it can be used for multiple VBO's
+	// WARNING: it should be generated BEFORE VBO, the ordering is really important
+	glGenVertexArrays(1, &VAO);
+
+	// ask opengl about creating a buffer object
+	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+
+	// setting the object as a current operated object (can be only one)
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	// write to binded object his data
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	
+	// specify how to interpret the data in VBO
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	glEnableVertexAttribArray(0);
+	
+	// unbind previous buffers as they are already configured
+	// to prevent accidental changing the data
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	//		===== ==================== ======
+
+
+
 	// write a color to the back buffer
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -142,10 +179,24 @@ int main()
 	// main loop
 	while (!glfwWindowShouldClose(window)) // quit the loop only if such message was received
 	{
+		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glUseProgram(shaderProgram);
+		glBindVertexArray(VAO);
+		glfwSwapBuffers(window);
+
+		// draw to the back buffer 3 vertices starting from 0 and make one triangle from them
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 		// read messages
 		glfwPollEvents();
 
 	}
+
+	// free gpu memory
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteProgram(shaderProgram);
 
 
 	// end of the program
