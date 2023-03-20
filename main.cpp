@@ -3,14 +3,18 @@
 
 
 // https://www.youtube.com/watch?v=45MIykWJ-C4
-// 22:14 timecode   / from 12-30 to 15-30
+// (was) 27:50 timecode, triangle
 
 
 
 
 
 
-
+/// **********
+///
+/// WARNING: the order matters
+/// 
+/// **********
 
 
 
@@ -85,7 +89,18 @@ int main()
 	{
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
 		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f // Upper corner
+		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
+		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
+		0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
+		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
+	};
+
+	// Indices for vertices order
+	GLuint indices[] =
+	{
+		0, 3, 5, // Lower left triangle
+		3, 2, 4, // Lower right triangle
+		5, 4, 1 // Upper triangle
 	};
 	// ------------- ---------------- ----------------
 
@@ -133,7 +148,7 @@ int main()
 
 	// only one object - a triangle, so we ain't need an array of VBO
 	// it stores actual info about a figure (vertices, colors etc)
-	ref VAO, VBO;
+	ref VAO, VBO, EBO;
 
 
 	// add VAO - to tell gpu how to interpret VBO - what are vertices, what are colors
@@ -143,6 +158,7 @@ int main()
 
 	// ask opengl about creating a buffer object
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
 
@@ -152,14 +168,22 @@ int main()
 	// write to binded object his data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 	// specify how to interpret the data in VBO
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+
+	// use attrib array with index 0 (that above)
 	glEnableVertexAttribArray(0);
 	
 	// unbind previous buffers as they are already configured
 	// to prevent accidental changing the data
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	// ubbind after VBO and VAO. 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//		===== ==================== ======
 	// ------------- ------ --------------
@@ -173,7 +197,10 @@ int main()
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
 		// draw to the back buffer 3 vertices starting from 0 and make one triangle from them
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// glDrawArrays(GL_TRIANGLES, 0, 3); // I use EBO instead - check below
+
+		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+
 		glfwSwapBuffers(window);
 		// read messages
 		glfwPollEvents();
@@ -183,6 +210,7 @@ int main()
 	// free gpu memory
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 	glDeleteProgram(shaderProgram);
 
 
