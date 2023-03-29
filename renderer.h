@@ -1,6 +1,7 @@
 #pragma once
 #include "camera.h"
 #include "mesh.h"
+#include "defines.h"
 
 
 /*
@@ -52,9 +53,21 @@
 class renderer
 {
 public:
-	camera fov;
 
-	renderer() noexcept(false);
+	//***** FIELDS *****//
+
+	// TODO is unused for now, glViewPort is set independently
+	/**
+	 * \brief camera settings
+	 */
+	camera fov;
+	//***** ****** *****//
+
+
+
+	//***** METHODS *****//
+
+	renderer(const i16 window_width, const i16 window_height) noexcept(false);
 
 	~renderer() noexcept(false);
 
@@ -93,7 +106,7 @@ private:
 	/**
 	 * \brief creates a window and sets it as current context for OpenGL
 	 */
-	void init_window();
+	void init_window(const i16 width, const i16 height);
 
 };
 

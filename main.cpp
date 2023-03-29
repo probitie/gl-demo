@@ -5,13 +5,12 @@
 #include "renderer.h"
 #include "resourcer.h"
 
-#define LIGHT_CUBE_MESH "models/light_cube.gltf"
-#define FLOOR_MESH "models/floor.gltf"
 
 int main()
 {
-	// TODO commented here functions that are not implemented yet
-	renderer render{};
+	// TODO commented here functions are not implemented yet
+
+	renderer render{ WINDOW_W, WINDOW_H };
 	//resourcer resource_manager{};
 
 	//const mesh light_cube = resource_manager.load_mesh(LIGHT_CUBE_MESH);
