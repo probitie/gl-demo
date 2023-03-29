@@ -1,19 +1,11 @@
 #pragma once
+#include "camera.h"
 #include "mesh.h"
 
 
 /*
  *
  * // Initialize GLFW
-	glfwInit();
-
-	// Tell GLFW what version of OpenGL we are using 
-	// In this case we are using OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	// Tell GLFW we are using the CORE profile
-	// So that means we only have the modern functions
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
 	GLFWwindow* window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
@@ -59,8 +51,13 @@
  */
 class renderer
 {
-
 public:
+	camera fov;
+
+	renderer() noexcept(false);
+
+	~renderer() noexcept(false);
+
 	/**
 	 * \brief adds a mesh to the context of render pipeline
 	 * \param mesh an object to be rendered on a display (if it in camera's fov)
@@ -72,14 +69,31 @@ public:
 	 */
 	void draw_context();
 
+	// TODO: do I need it? maybe call it implicitly
 	/**
-	 * \brief implicitly swaps buffers
+	 * \brief explicitly swaps screen buffers
 	 */
 	void swap_buffers();
 
+private:
+
+	//***** FIELDS *****//
+
 	/**
-	 * \brief camera params
+	 * \brief current window being drawn.
+	 * Do not change it,
+	 * it is used once in the constructor and once in the destructor
 	 */
-	camera fov;
+	GLFWwindow* _window;
+
+	//***** ****** *****//
+
+
+	//***** METHODS *****//
+	/**
+	 * \brief creates a window and sets it as current context for OpenGL
+	 */
+	void init_window();
+
 };
 

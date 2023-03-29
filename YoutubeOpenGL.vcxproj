@@ -144,13 +144,16 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
-    <ClCompile Include="render.cpp" />
+    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resourcer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="defines.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="eventer.h" />
     <ClInclude Include="libs.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resourcer.h" />
