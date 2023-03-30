@@ -2,29 +2,12 @@
 #include "camera.h"
 #include "mesh.h"
 #include "defines.h"
+#include "window.h"
 
 
 /*
  *
- * // Initialize GLFW
-
-	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-	GLFWwindow* window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
-	// Error check if the window fails to create
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	// Introduce the window into the current context
-	glfwMakeContextCurrent(window);
-
-	//Load GLAD so it configures OpenGL
-	gladLoadGL();
-	// Specify the viewport of OpenGL in the Window
-	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
-	glViewport(0, 0, 800, 800);
+ *
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -67,7 +50,7 @@ public:
 
 	//***** METHODS *****//
 
-	renderer(const i16 window_width, const i16 window_height) noexcept(false);
+	renderer(const window& win) noexcept(false);
 
 	~renderer() noexcept(false);
 
@@ -86,7 +69,7 @@ public:
 	/**
 	 * \brief explicitly swaps screen buffers
 	 */
-	void swap_buffers();
+	void swap_buffers() const;
 
 private:
 
@@ -97,16 +80,12 @@ private:
 	 * Do not change it,
 	 * it is used once in the constructor and once in the destructor
 	 */
-	GLFWwindow* _window;
+	GLFWwindow* window_;
 
 	//***** ****** *****//
 
 
 	//***** METHODS *****//
-	/**
-	 * \brief creates a window and sets it as current context for OpenGL
-	 */
-	void init_window(const i16 width, const i16 height);
 
 };
 

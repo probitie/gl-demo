@@ -3,10 +3,10 @@
 #include "error.h"
 #include "logger.h"
 
-renderer::renderer(const i16 window_width, const i16 window_height) noexcept(false)
-	: _window(nullptr)
+renderer::renderer(const window& win)
+	: window_(win.ptr())
 {
-	glfwInit();
+	// do not forget to init glfw
 
 	// set openGL API version exactly 3.3 CORE PROFILE
 	// this is minimal version to have access to modern functions
@@ -14,8 +14,8 @@ renderer::renderer(const i16 window_width, const i16 window_height) noexcept(fal
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// create and set a window
-	init_window(window_width, window_height);
+	// set this window as main for opengl
+	win.activate();
 
 	//Load GLAD so it configures OpenGL
 	gladLoadGL();
@@ -23,17 +23,18 @@ renderer::renderer(const i16 window_width, const i16 window_height) noexcept(fal
 	// TODO move window parameters to constructor or move window creation to another block of code (maybe no)
 	// Specify the viewport of OpenGL in the Window
 	// In this case the viewport goes from x = 0, y = 0, to x = window_width, y = window_height
-	glViewport(0, 0, window_width, window_height);
+
+	glViewport(0, 0, win.width(), win.height());
 
 }
 
 renderer::~renderer() noexcept(false)
 {
 	// Error check if the window somehow became nullptr before the destructor
-	CHECK_NOT_NULLPTR(_window, "GLFW: failed to destruct a window - it seems to be already destructed");
+	CHECK_NOT_NULLPTR(window_, "GLFW: failed to destruct a window - it seems to be already destructed");
 
 	// Delete window before ending the program
-	glfwDestroyWindow(_window);
+	glfwDestroyWindow(window_);
 
 	// Terminate GLFW before ending the program
 	glfwTerminate();
@@ -41,19 +42,13 @@ renderer::~renderer() noexcept(false)
 
 void renderer::draw_context()
 {
+	// Specify the color of the background
+	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+	// Clean the back buffer and assign the new color to it
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void renderer::swap_buffers()
+void renderer::swap_buffers() const
 {
-}
-
-void renderer::init_window(const i16 width, const i16 height)
-{
-	_window = glfwCreateWindow(width, height, "YoutubeOpenGL", NULL, NULL);
-
-	// Error check if the window fails to create
-	CHECK_NOT_NULLPTR(_window, "GLFW: failed to create a window");
-
-	// Introduce the window into the current context
-	glfwMakeContextCurrent(_window);
+	glfwSwapBuffers(window_);
 }

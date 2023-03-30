@@ -4,13 +4,14 @@
 
 #include "renderer.h"
 #include "resourcer.h"
+#include "window.h"
 
 
 int main()
 {
 	// TODO commented here functions are not implemented yet
-
-	renderer render{ WINDOW_W, WINDOW_H };
+	window current_window{ WINDOW_W , WINDOW_H, "wtf"};
+	renderer render{ current_window };
 	//resourcer resource_manager{};
 
 	//const mesh light_cube = resource_manager.load_mesh(LIGHT_CUBE_MESH);
@@ -19,13 +20,13 @@ int main()
 	//render.add(light_cube);
 	//render.add(floor);
 
-	//eventer events{};
-	while( 1 )//! events.should_close_app() )
+	//eventer events{ current_window };
+	while( 1 ) //! events.should_close_app() )
 	{
-		//events.poll();
-		//render.fov.move(events.get_camera_movement());
 		render.draw_context();
 		render.swap_buffers();
+		//events.poll();
+		//render.fov.move(events.get_camera_movement());
 	}
 	
 	return 0;
