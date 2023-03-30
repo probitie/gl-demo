@@ -30,12 +30,6 @@ renderer::renderer(const window& win)
 
 renderer::~renderer() noexcept(false)
 {
-	// Error check if the window somehow became nullptr before the destructor
-	CHECK_NOT_NULLPTR(window_, "GLFW: failed to destruct a window - it seems to be already destructed");
-
-	// Delete window before ending the program
-	glfwDestroyWindow(window_);
-
 	// Terminate GLFW before ending the program
 	glfwTerminate();
 }

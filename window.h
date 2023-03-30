@@ -7,6 +7,7 @@ class window
 {
 public:
 	window(const i16 width, const i16 height, raw_str title);
+	~window();
 
 	GLFWwindow* ptr() const;
 

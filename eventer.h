@@ -1,5 +1,6 @@
 #pragma once
 #include "libs.h"
+#include "window.h"
 
 /**
  * \brief handles window events
@@ -8,6 +9,9 @@ class eventer
 {
 
 public:
+
+	eventer(const window& win) : window_{ win.ptr()} {}
+
 	/**
 	 * \brief parses user input
 	 */
@@ -24,5 +28,12 @@ public:
 	 * \brief checks parsed user input for movement keys
 	 */
 	std::vector<int> get_camera_movement();
+
+private:
+	/**
+	 * \brief receive 99% of events from this window (maybe even 100%)
+	 */
+	GLFWwindow* window_;
+
 };
 

@@ -10,7 +10,7 @@
 int main()
 {
 	// TODO commented here functions are not implemented yet
-	window current_window{ WINDOW_W , WINDOW_H, "wtf"};
+	window current_window{ WINDOW_W , WINDOW_H, "openGL demo"};
 	renderer render{ current_window };
 	//resourcer resource_manager{};
 
@@ -20,12 +20,12 @@ int main()
 	//render.add(light_cube);
 	//render.add(floor);
 
-	//eventer events{ current_window };
-	while( 1 ) //! events.should_close_app() )
+	eventer events{ current_window };
+	while( ! events.should_close_app() )
 	{
 		render.draw_context();
 		render.swap_buffers();
-		//events.poll();
+		events.poll();
 		//render.fov.move(events.get_camera_movement());
 	}
 	
