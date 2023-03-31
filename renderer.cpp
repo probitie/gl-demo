@@ -40,6 +40,8 @@ void renderer::draw_context()
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 	// Clean the back buffer and assign the new color to it
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	// TODO draw here all models like for(model in models) -> model.render()
 }
 
 void renderer::swap_buffers() const

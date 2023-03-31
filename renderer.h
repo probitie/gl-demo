@@ -2,29 +2,8 @@
 #include "camera.h"
 #include "mesh.h"
 #include "defines.h"
+#include "model.h"
 #include "window.h"
-
-
-/*
- *
- *
-
-	// Main while loop
-	while (!glfwWindowShouldClose(window))
-	{
-		
-		// Tell OpenGL which Shader Program we want to use
-		
-		// Swap the back buffer with the front buffer
-		glfwSwapBuffers(window);
-		// Take care of all GLFW events
-		glfwPollEvents();
-	}
-	// Delete window before ending the program
-	glfwDestroyWindow(window);
-	// Terminate GLFW before ending the program
-	glfwTerminate();
- */
 
 
 /**
@@ -53,9 +32,9 @@ public:
 
 	/**
 	 * \brief adds a mesh to the context of render pipeline
-	 * \param mesh an object to be rendered on a display (if it in camera's fov)
+	 * \param _model an object to be rendered on a display (if it in camera's fov)
 	 */
-	void add(const mesh& mesh);
+	void add(const model& _model);
 
 	/**
 	 * \brief draws added context elements on a screen

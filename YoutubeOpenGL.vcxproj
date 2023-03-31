@@ -140,24 +140,37 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="ebo.cpp" />
     <ClCompile Include="eventer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="resourcer.cpp" />
+    <ClCompile Include="shader_program.cpp" />
+    <ClCompile Include="vao.cpp" />
+    <ClCompile Include="vbo.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="defines.h" />
+    <ClInclude Include="ebo.h" />
     <ClInclude Include="error.h" />
     <ClInclude Include="eventer.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="logger.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resourcer.h" />
+    <ClInclude Include="shader_program.h" />
+    <ClInclude Include="vao.h" />
+    <ClInclude Include="vbo.h" />
+    <ClInclude Include="vertex.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

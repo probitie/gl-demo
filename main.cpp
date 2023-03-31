@@ -10,19 +10,22 @@
 int main()
 {
 	// TODO commented here functions are not implemented yet
-	window current_window{ WINDOW_W , WINDOW_H, "openGL demo"};
+	const window current_window{ WINDOW_W , WINDOW_H, "openGL demo"};
 	renderer render{ current_window };
-	//resourcer resource_manager{};
+	resourcer resource_manager{};
 
+	const model a_model = resource_manager.load_model("");
 	//const mesh light_cube = resource_manager.load_mesh(LIGHT_CUBE_MESH);
 	//const mesh floor = resource_manager.load_mesh(FLOOR_MESH);
 
+	render.add(a_model);
 	//render.add(light_cube);
 	//render.add(floor);
 
 	eventer events{ current_window };
 	while( ! events.should_close_app() )
 	{
+		// scene.update() // TODO do i need this ?? | scene is like a model but with multiple meshes/materials in tree order
 		render.draw_context();
 		render.swap_buffers();
 		events.poll();
