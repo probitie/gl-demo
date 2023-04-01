@@ -2,6 +2,7 @@
 #include <vector>
 #include <glad/glad.h>
 
+#include "defines.h"
 #include "ebo.h"
 #include "vao.h"
 #include "vertex.h"
@@ -11,17 +12,14 @@ class mesh
 {
 public:
 
-	mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices)
-		: m_vao(vertices), m_ebo(indices)
-	{ /* empty */ }
+	mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices);
 
 	~mesh() = default;
 
-	[[nodiscard]] GLsizei get_index_count() const;
-	void render() const;
+	void render();
 
 private:
 	vao m_vao;
-	ebo m_ebo;
+	size_t indices_count;
 };
 

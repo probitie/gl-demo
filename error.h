@@ -1,12 +1,18 @@
 #pragma once
 #include <stdexcept>
 #include "logger.h"
+#include "libs.h"
+#include "defines.h"
+#include <sstream>
 
-// TODO rewrite it for my logger library and std::runtime_error
-#define CHECK_NOT_NULLPTR(ptr, msg)\
-	if ((ptr) == nullptr)\
+#define ASSERT(condition, msg)\
+	if(!(condition))\
 	{\
-		errorlog("nullptr: " << msg);\
-		glfwTerminate();\
-		throw std::runtime_error(msg);\
+		\
+			errorlog(msg); \
+			glfwTerminate(); \
+			std:abort();\
 	}
+
+#define CHECK_NOT_NULLPTR(ptr, msg)\
+	ASSERT((ptr) == nullptr)
