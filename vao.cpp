@@ -20,8 +20,10 @@ void vao::set_layout()
 	ASSERT(is_bound, "you need to bind vao before setting its layout");
 
 	// vertex coordinates
+
+	// position_vec3 and color_vec3
 	set_attribute(0, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, position));
-	set_attribute(1, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, normal));
+	set_attribute(1, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, color));
 	//vao.setAttribute(2, 2, GL_FLOAT, sizeof(vertex), offsetof(vertex, texcoord));
 
 }
