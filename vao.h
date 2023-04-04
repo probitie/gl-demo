@@ -32,7 +32,7 @@ private:
 
 	// to check if this vao is bind now
 	// TODO do more safe check
-	bool is_bind;
+	bool is_bound;
 
 	/**
 	 * \brief sets attribute for bound vao

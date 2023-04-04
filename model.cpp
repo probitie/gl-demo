@@ -1,6 +1,6 @@
 #include "model.h"
 
-void model::render() const
+void model::render()
 {
     for (size_t i = 0; i < m_meshes.size(); ++i) {
         m_materials[i].enable();

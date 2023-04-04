@@ -34,7 +34,7 @@ public:
 	/**
 	 * \brief draws the model on a screen
 	 */
-	void render() const;
+	void render();
 
 private:
 	std::vector<mesh> m_meshes;
