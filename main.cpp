@@ -54,7 +54,10 @@ int main()
      0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
 }; */
 
-	shader_program shader{"D:\\projects\\gl\\YoutubeOpenGL\\vertex.vs", "D:\projects\gl\YoutubeOpenGL\\fragment.fs"};
+	raw_str vs = "D:\\projects\\gl\\YoutubeOpenGL\\vertex.vs";
+	raw_str fs = "D:\\projects\\gl\\YoutubeOpenGL\\fragment.fs";
+
+	shader_program shader{vs, fs};
 
 	eventer events{ current_window };
 

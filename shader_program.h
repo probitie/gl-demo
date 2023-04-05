@@ -82,7 +82,7 @@ public:
 
     void activate()
     {
-        use();
+        use(); 
     }
 
     // utility uniform functions
