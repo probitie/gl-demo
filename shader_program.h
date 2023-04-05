@@ -4,10 +4,9 @@
  *
  */
 
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
-#include <glad/glad.h>
+#include "libs.h"
 
 #include <string>
 #include <fstream>
@@ -80,6 +79,12 @@ public:
     {
         glUseProgram(ID);
     }
+
+    void activate()
+    {
+        use();
+    }
+
     // utility uniform functions
     // ------------------------------------------------------------------------
     void setBool(const std::string& name, bool value) const
@@ -124,5 +129,4 @@ private:
         }
     }
 };
-#endif
 

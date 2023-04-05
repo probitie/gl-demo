@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <GL/gl.h>
 #include "libs.h"
 
 class ebo

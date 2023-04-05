@@ -15,12 +15,27 @@ raw_str fs = "";
 model&& resourcer::load_model(const std::string& resource_path)
 {
 	// TODO implement - one material and one mesh
-	std::vector<mesh> msh{};
+
+    std::vector<vertex> vertices = {
+        // bottom left
+        {glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        // top left
+        {glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        // top right
+        {glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        // bottom right
+        {glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
+    };
+
+    std::vector<GLuint> indices = {
+        0, 1, 2, // first triangle
+        2, 3, 0  // second triangle
+    };
+
+	std::vector<mesh> msh{
+        {vertices, indices}
+	};
 	std::vector<material> mat{};
-#error "material and mesh are not set"
 
-
-
-	model m{ std::move(msh), std::move(mat) };
-	return std::move(m);
+	return { std::move(msh), std::move(mat) };
 }

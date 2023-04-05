@@ -1,11 +1,14 @@
 #pragma once
+
+#include "libs.h"
+
+
 #include <stdexcept>
 #include "logger.h"
-#include "libs.h"
 #include "defines.h"
 #include <sstream>
 
-#define ASSERT(condition, msg)\
+#define RD_ASSERT(condition, msg)\
 	if(!(condition))\
 	{\
 		\
@@ -15,4 +18,4 @@
 	}
 
 #define CHECK_NOT_NULLPTR(ptr, msg)\
-	ASSERT((ptr) == nullptr)
+	RD_ASSERT((ptr) != nullptr, (msg))

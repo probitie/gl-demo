@@ -6,7 +6,6 @@ vbo::vbo(const std::vector<vertex>& vertices)
 
 	bind();
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), vertices.data(), GL_STATIC_DRAW);
-	unbind();
 }
 
 vbo::~vbo()

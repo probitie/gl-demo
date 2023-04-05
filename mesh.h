@@ -1,6 +1,7 @@
 #pragma once
+#include "libs.h"
+
 #include <vector>
-#include <glad/glad.h>
 
 #include "defines.h"
 #include "ebo.h"

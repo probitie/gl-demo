@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <glad/glad.h>
+#include "libs.h"
 
 #include "vbo.h"
 #include "vertex.h"
@@ -19,20 +19,9 @@ public:
 	explicit vao();
 	~vao();
 
-	/**
-	 * \brief sets a layout for vao. YOU NEED TO BIND VAO BEFORE CALLING THIS FUNC
-	 */
-	void set_layout();
 
 	void bind();
 	void unbind();
-
-private:
-	GLuint id;
-
-	// to check if this vao is bind now
-	// TODO do more safe check
-	bool is_bound;
 
 	/**
 	 * \brief sets attribute for bound vao
@@ -42,7 +31,15 @@ private:
 	 * \param struct_size size of one data chunk (like VBO represents array<chunk>)
 	 * \param offset offset from chunk beginning
 	 */
-	void set_attribute(int index, int components_count, GLenum data_type, size_t struct_size, size_t offset);
+	void set_attribute(vbo& vbo_, int index, int components_count, GLenum data_type, size_t struct_size, size_t offset);
+
+
+private:
+	GLuint id;
+
+	// to check if this vao is bind now
+	// TODO do more safe check
+	bool is_bound;
 
 };
 
