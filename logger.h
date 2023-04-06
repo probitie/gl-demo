@@ -12,7 +12,7 @@
 
 // you can use it like this "debuglog("Hello " << user->name)"
 #define RD_WRITE_LOG(outbuffer, level, message) outbuffer << "[" << (level) \
-<< "] " << RD_GET_PLACE_IN_CODE(0) << message << "\n"
+<< "] \t" << RD_GET_PLACE_IN_CODE(0) << message << "\n"
 
 #define debuglog(message) RD_WRITE_LOG(std::cout, "DEBUG", message)
 #define infolog(message) RD_WRITE_LOG(std::cout, "INFO", message)

@@ -86,10 +86,6 @@ int main()
 	vbo_.unbind();
 	ebo_.unbind();
 
-	debuglog("test debug");
-	infolog("test info");
-	errorlog("test error");
-
 	while( ! events.should_close_app() )
 	{
 		// scene.update() // TODO do i need this ?? | scene is like a model but with multiple meshes/materials in tree order
@@ -98,7 +94,7 @@ int main()
 
 		shader.activate();
 		vao_.bind();
-		DBG(glDrawElements(GL_TRIANGLES, ebo_.get_indices_count(), GL_INT, 0));
+		DBG(glDrawElements(GL_TRIANGLES, ebo_.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao_.unbind();
 
 		render.swap_buffers();

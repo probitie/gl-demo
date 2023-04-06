@@ -1,8 +1,6 @@
 #pragma once
 
 #include "libs.h"
-
-
 #include <stdexcept>
 #include "logger.h"
 #include <sstream>
@@ -50,11 +48,11 @@ constexpr bool rd_terminate_on_error = false;
  * \param gl_api_call your function with params
  */
 #define RD_DBG(gl_api_call) \
-{ \
+do{ \
     rd_check_errors(RD_GET_PLACE_IN_CODE(1), "Before", #gl_api_call, rd_terminate_on_error); \
     gl_api_call; \
     rd_check_errors(RD_GET_PLACE_IN_CODE(-1), "After", #gl_api_call, rd_terminate_on_error); \
-}
+}while(0) // while here to force user place semicolon after this define
 
 /**
  * \brief a shortcut for RD_DBG
