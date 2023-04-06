@@ -86,6 +86,10 @@ int main()
 	vbo_.unbind();
 	ebo_.unbind();
 
+	debuglog("test debug");
+	infolog("test info");
+	errorlog("test error");
+
 	while( ! events.should_close_app() )
 	{
 		// scene.update() // TODO do i need this ?? | scene is like a model but with multiple meshes/materials in tree order
