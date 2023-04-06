@@ -25,7 +25,7 @@ void mesh::render()
 	RD_ASSERT((indices_count < std::numeric_limits<GLuint>::max())
 		, "too many vertex indices (int type overflow)");
 
-	glDrawElements(GL_TRIANGLES, indices_count, GL_UNSIGNED_INT, 0);  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-shorten-64-to-32)
+	DBG(glDrawElements(GL_TRIANGLES, indices_count, GL_UNSIGNED_INT, 0));  // NOLINT(bugprone-narrowing-conversions, clang-diagnostic-shorten-64-to-32)
 
 	m_vao.unbind();
 }

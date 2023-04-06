@@ -2,6 +2,7 @@
 #include <vector>
 #include "libs.h"
 #include "vertex.h"
+#include "error.h"
 
 class vbo
 {

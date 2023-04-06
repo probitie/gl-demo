@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "libs.h"
+#include "error.h"
 
 class ebo
 {
