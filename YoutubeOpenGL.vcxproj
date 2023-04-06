@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="ebo.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="eventer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />

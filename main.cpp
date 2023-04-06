@@ -1,6 +1,6 @@
 
+#include "error.h"
 #include "libs.h"
-
 
 #include "eventer.h"
 #include "mesh.h"
@@ -9,6 +9,8 @@
 #include "resourcer.h"
 #include "shader_program.h"
 #include "window.h"
+
+
 
 
 int main()
@@ -59,6 +61,16 @@ int main()
 
 	shader_program shader{vs, fs};
 
+
+
+
+	// debug -> DBG(glBindBuffer(...))
+    // 3d matrices, a cube on a screen
+	// moving camera, camera object
+	// refactor code
+
+
+
 	eventer events{ current_window };
 
 	vao vao_{};
@@ -82,7 +94,7 @@ int main()
 
 		shader.activate();
 		vao_.bind();
-		glDrawElements(GL_TRIANGLES, ebo_.get_indices_count(), GL_UNSIGNED_INT, 0);
+		DBG(glDrawElements(GL_TRIANGLES, ebo_.get_indices_count(), GL_INT, 0));
 		vao_.unbind();
 
 		render.swap_buffers();
