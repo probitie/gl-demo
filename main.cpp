@@ -31,9 +31,60 @@ int main()
 		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
 	};
 
+	std::vector<vertex> cube_vertices = {
+		// bottom face
+		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
+		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
+		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
+		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
+		// top face
+		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
+		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
+		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f)},
+		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f)}
+	};
+
 	std::vector<GLuint> indices = {
 		0, 1, 2, // first triangle
 		2, 3, 0  // second triangle
+	};
+
+	std::vector<GLuint> cube_indices = {
+		// bottom face
+		0, 1, 2,
+		2, 3, 0,
+		// top face
+		4, 5, 6,
+		6, 7, 4,
+		// left face
+		0, 4, 7,
+		7, 3, 0,
+		// right face
+		1, 5, 6,
+		6, 2, 1,
+		// front face
+		0, 1, 5,
+		5, 4, 0,
+		// back face
+		3, 2, 6,
+		6, 7, 3
+	};
+
+	std::vector<vertex> pyro_vertices = {
+	{glm::vec3(-0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(0.92f, 0.86f, 0.76f)}
+	};
+
+	std::vector<GLuint> pyro_indices = {
+		0, 1, 2,
+		0, 2, 3,
+		0, 1, 4,
+		1, 2, 4,
+		2, 3, 4,
+		3, 0, 4
 	};
 
 	//std::vector<mesh> msh{
@@ -49,23 +100,16 @@ int main()
 	//render.add(light_cube);
 	//render.add(floor);
 
-	/*float vertices[] = {
-    // positions         // colors
-     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
-}; */
 
-	raw_str vs = "D:\\projects\\gl\\YoutubeOpenGL\\vertex.vs";
-	raw_str fs = "D:\\projects\\gl\\YoutubeOpenGL\\fragment.fs";
+	raw_str vs = R"(D:\projects\gl\YoutubeOpenGL\vertex.vs)";
+	raw_str fs = R"(D:\projects\gl\YoutubeOpenGL\fragment.fs)";
 
 	shader_program shader{vs, fs};
 
 
 
 
-	// debug -> DBG(glBindBuffer(...))
-    // 3d matrices, a cube on a screen
+    // 3d matrices, a spinning cube on the screen
 	// moving camera, camera object
 	// refactor code
 
@@ -76,8 +120,8 @@ int main()
 	vao vao_{};
 	vao_.bind();
 
-	vbo vbo_(vertices);
-	ebo ebo_(indices);
+	vbo vbo_(pyro_vertices);
+	ebo ebo_(pyro_indices);
 
 	vao_.set_attribute(vbo_, 0, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, position));
 	vao_.set_attribute(vbo_, 1, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, color));
@@ -86,13 +130,46 @@ int main()
 	vbo_.unbind();
 	ebo_.unbind();
 
+	// timer for rotation
+	float rotation{};
+	double prevTime = glfwGetTime();
+
+	// Enable depth testing
+	//DBG(glEnable(GL_DEPTH_TEST));
+
 	while( ! events.should_close_app() )
 	{
+		// Simple timer
+		double crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60)
+		{
+			rotation += 0.5f;
+			prevTime = crntTime;
+		}
+
 		// scene.update() // TODO do i need this ?? | scene is like a model but with multiple meshes/materials in tree order
 		render.draw_context();
 		//a_model.render();
 
 		shader.activate();
+
+		auto model_coords = glm::mat4(1.0f);
+		auto world_coords = glm::mat4(1.0f);
+		auto projection_coords = glm::mat4(1.0f);
+
+		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
+		world_coords = glm::translate(world_coords, glm::vec3(0.0f, -0.5f, -2.0f));
+		projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
+
+		int model_loc, world_loc, projection_loc;
+
+		DBG(model_loc = glGetUniformLocation(shader.ID, "model"));
+		DBG(world_loc = glGetUniformLocation(shader.ID, "world"));
+		DBG(projection_loc = glGetUniformLocation(shader.ID, "proj"));
+
+		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
+		DBG(glUniformMatrix4fv(world_loc, 1, GL_FALSE, glm::value_ptr(world_coords)));
+		DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
 		vao_.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo_.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao_.unbind();
