@@ -120,8 +120,8 @@ int main()
 	vao vao_{};
 	vao_.bind();
 
-	vbo vbo_(pyro_vertices);
-	ebo ebo_(pyro_indices);
+	vbo vbo_(cube_vertices);
+	ebo ebo_(cube_indices);
 
 	vao_.set_attribute(vbo_, 0, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, position));
 	vao_.set_attribute(vbo_, 1, 3, GL_FLOAT, sizeof(vertex), offsetof(vertex, color));
@@ -135,15 +135,14 @@ int main()
 	double prevTime = glfwGetTime();
 
 	// Enable depth testing
-	//DBG(glEnable(GL_DEPTH_TEST));
-
+	DBG(glEnable(GL_DEPTH_TEST));
 	while( ! events.should_close_app() )
 	{
 		// Simple timer
 		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60)
+		if (crntTime - prevTime >= 1 / 30)
 		{
-			rotation += 0.5f;
+			rotation += 0.1f;
 			prevTime = crntTime;
 		}
 
@@ -158,7 +157,7 @@ int main()
 		auto projection_coords = glm::mat4(1.0f);
 
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
-		world_coords = glm::translate(world_coords, glm::vec3(0.0f, -0.5f, -2.0f));
+		world_coords = glm::translate(world_coords, glm::vec3(0.0f, .0f, -2.0f));
 		projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
 
 		int model_loc, world_loc, projection_loc;
