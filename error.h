@@ -10,7 +10,7 @@
 {\
 	errorlog(msg); \
 	glfwTerminate(); \
-	std:abort();\
+	std::abort();\
 }
 
 #define RD_ASSERT(condition, msg)\

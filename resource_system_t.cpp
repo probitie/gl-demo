@@ -67,14 +67,14 @@ mesh_t&& resource_system_t::load_mesh(MESHES mesh_id) const
 		return mesh_t{ std::move(pyro_vertices), std::move(pyro_indices) };
 	}
 
-	RD_TERMINATE(false, "unknown mesh id, cannot load it");
+	RD_TERMINATE("unknown mesh id, cannot load it");
 }
 
 material_t&& resource_system_t::load_material(MATERIALS material_id) const
 {
 	if(material_id == RD_DEFAULT)
 	{
-		return material_t{RD_V_SHADER_PATH, RD_F_SHADER_PATH};
+		return std::move(material_t{RD_V_SHADER_PATH, RD_F_SHADER_PATH});
 	}
-	RD_TERMINATE(false, "unknown material id, cannot load it");
+	RD_TERMINATE("unknown material id, cannot load it");
 }

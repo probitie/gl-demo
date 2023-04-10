@@ -135,22 +135,22 @@ int main()
 
 		shader.activate();
 
-		auto model_coords = glm::mat4(1.0f); // world
-		auto world_coords = glm::mat4(1.0f); // camera
-		auto projection_coords = glm::mat4(1.0f); // perspective
-
+		glm::mat4 model_coords = glm::mat4(1.0f);
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
-		world_coords = glm::translate(world_coords, glm::vec3(0.0f, .0f, -2.0f)); // vec3 is the camera's position
-		projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
 
-		int model_loc, world_loc, projection_loc;
+		glm::mat4 view_coords = glm::mat4(1.0f);
+		view_coords = glm::translate(view_coords, glm::vec3(0.0f, 0.0f, -2.0f)); // vec3 is the camera's position
 
-		DBG(model_loc = glGetUniformLocation(shader.ID, "model_t"));
-		DBG(world_loc = glGetUniformLocation(shader.ID, "world"));
+		glm::mat4 projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
+
+		int model_loc, view_loc, projection_loc;
+
+		DBG(model_loc = glGetUniformLocation(shader.ID, "model"));
+		DBG(view_loc = glGetUniformLocation(shader.ID, "view"));
 		DBG(projection_loc = glGetUniformLocation(shader.ID, "proj"));
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
-		DBG(glUniformMatrix4fv(world_loc, 1, GL_FALSE, glm::value_ptr(world_coords)));
+		DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view_coords)));
 		DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
