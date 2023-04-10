@@ -5,13 +5,18 @@
 #include "logger.h"
 #include <sstream>
 
+// TODO check the proper way, maybe use std::terminate or throw
+#define RD_TERMINATE(msg)\
+{\
+	errorlog(msg); \
+	glfwTerminate(); \
+	std:abort();\
+}
+
 #define RD_ASSERT(condition, msg)\
 	if(!(condition))\
 	{\
-		\
-			errorlog(msg); \
-			glfwTerminate(); \
-			std:abort();\
+		RD_TERMINATE(msg);\
 	}
 
 #define CHECK_NOT_NULLPTR(ptr, msg)\

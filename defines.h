@@ -16,3 +16,19 @@ using raw_str = const char*;
  * \brief break program if there any errors
  */
 #define RD_TERMINATE_ON_ERROR
+
+
+
+#define RD_V_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\vertex.vs)"
+#define RD_F_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\fragment.fs)"
+
+enum MESHES
+{
+	RD_CUBE,
+	RD_PYRO
+};
+
+enum MATERIALS
+{
+	RD_DEFAULT
+};

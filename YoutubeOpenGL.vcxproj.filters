@@ -30,40 +30,40 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resourcer.cpp">
+    <ClCompile Include="resource_system_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.cpp">
+    <ClCompile Include="mesh_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eventer.cpp">
+    <ClCompile Include="event_system_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
+    <ClCompile Include="camera_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="window.cpp">
+    <ClCompile Include="window_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="model_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="material.cpp">
+    <ClCompile Include="material_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vao.cpp">
+    <ClCompile Include="vao_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vbo.cpp">
+    <ClCompile Include="vbo_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ebo.cpp">
+    <ClCompile Include="ebo_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
+    <ClCompile Include="render_system_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shader_program.cpp">
+    <ClCompile Include="shader_program_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="error.cpp">
@@ -71,22 +71,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="renderer.h">
+    <ClInclude Include="render_system_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eventer.h">
+    <ClInclude Include="event_system_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="camera_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="window.h">
+    <ClInclude Include="window_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="model_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
+    <ClInclude Include="mesh_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
     <ClInclude Include="logger.h">
@@ -101,25 +101,25 @@
     <ClInclude Include="defines.h">
       <Filter>Header Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
+    <ClInclude Include="material_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="vbo.h">
+    <ClInclude Include="vbo_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="vao.h">
+    <ClInclude Include="vao_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="ebo.h">
+    <ClInclude Include="ebo_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="resourcer.h">
+    <ClInclude Include="resource_system_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shader_program.h">
+    <ClInclude Include="shader_program_t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vertex.h">
+    <ClInclude Include="vertex_t.h">
       <Filter>Header Files\resources</Filter>
     </ClInclude>
   </ItemGroup>
