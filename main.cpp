@@ -22,14 +22,95 @@ int main()
 	render_system_t render{ current_window };
 	resource_system_t resources{};
 
-	mesh_t mesh = resources.load_mesh(RD_CUBE);
-	material_t material = resources.load_material(RD_DEFAULT);
+	// move this to resources implementation (it will be like a mock object for now)
+	
+	std::vector<vertex_t> vertices = {
+		// bottom left
+		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+		// top left
+		{glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+		// top right
+		{glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+		// bottom right
+		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
+	};
+	std::vector<vertex_t> cube_vertices = {
+		// bottom face
+		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
+		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
+		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
+		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
+		// top face
+		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
+		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
+		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f)},
+		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f)}
+	};
+	std::vector<GLuint> indices = {
+		0, 1, 2, // first triangle
+		2, 3, 0  // second triangle
+	};
+	std::vector<GLuint> cube_indices = {
+		// bottom face
+		0, 1, 2,
+		2, 3, 0,
+		// top face
+		4, 5, 6,
+		6, 7, 4,
+		// left face
+		0, 4, 7,
+		7, 3, 0,
+		// right face
+		1, 5, 6,
+		6, 2, 1,
+		// front face
+		0, 1, 5,
+		5, 4, 0,
+		// back face
+		3, 2, 6,
+		6, 7, 3
+	};
+	std::vector<vertex_t> pyro_vertices = {
+	{glm::vec3(-0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
+	{glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(0.92f, 0.86f, 0.76f)}
+	};
+	std::vector<GLuint> pyro_indices = {
+		0, 1, 2,
+		0, 2, 3,
+		0, 1, 4,
+		1, 2, 4,
+		2, 3, 4,
+		3, 0, 4
+	};
+	
+	const mesh_t cube = resources.load_mesh(RD_CUBE);
+	const material_t mat = resources.load_material(RD_DEFAULT);
+
+	// move to resources load_material and use RD_V_SHADER etc
+	//shader_program_t shader{vs, fs};
 
 	event_system_t events{ current_window };
 
+	// move to mesh class
+	
+	vao_t vao{};
+	vao.bind();
+	vbo_t vbo(std::move(cube_vertices));
+	ebo_t ebo(std::move(cube_indices));
+	vao.set_attribute(vbo, 0, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, position));
+	vao.set_attribute(vbo, 1, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, color));
+	vao.unbind();
+	vbo.unbind();
+	ebo.unbind();
+	
+
+
 	// todo create camera class and move time count nad other things to render class
 
-
+	shader_program_t shader{ RD_V_SHADER_PATH, RD_F_SHADER_PATH };
 	// timer for rotation
 	float rotation{};
 	double prevTime = glfwGetTime();
@@ -52,7 +133,7 @@ int main()
 		render.draw_context();
 		//a_model.render();
 
-		material.enable();
+		shader.activate();
 
 		auto model_coords = glm::mat4(1.0f); // world
 		auto world_coords = glm::mat4(1.0f); // camera
@@ -64,16 +145,16 @@ int main()
 
 		int model_loc, world_loc, projection_loc;
 
-		
-		DBG(model_loc = glGetUniformLocation(material.shader_program.ID, "model_t"));
-		DBG(world_loc = glGetUniformLocation(material.shader_program.ID, "world"));
-		DBG(projection_loc = glGetUniformLocation(material.shader_program.ID, "proj"));
+		DBG(model_loc = glGetUniformLocation(shader.ID, "model_t"));
+		DBG(world_loc = glGetUniformLocation(shader.ID, "world"));
+		DBG(projection_loc = glGetUniformLocation(shader.ID, "proj"));
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
 		DBG(glUniformMatrix4fv(world_loc, 1, GL_FALSE, glm::value_ptr(world_coords)));
 		DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
-		
-		mesh.render();
+		vao.bind();
+		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
+		vao.unbind();
 
 		render.swap_buffers();
 		events.poll();
