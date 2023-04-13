@@ -45,7 +45,20 @@ public:
 	/**
 	 * \brief explicitly swaps screen buffers
 	 */
-	void swap_buffers() const;
+	void swap_buffers();
+
+	/**
+	 * \brief delta time between two frames
+	 * \return delta time
+	 */
+	[[nodiscard]] GLfloat get_time_delta() const
+	{
+		return current_frame_timestamp - last_frame_timestamp;
+	}
+
+	void start_frame() { current_frame_timestamp = glfwGetTime(); }
+	void end_frame() { last_frame_timestamp = current_frame_timestamp; }
+
 
 private:
 
@@ -57,6 +70,17 @@ private:
 	 * it is used once in the constructor and once in the destructor
 	 */
 	GLFWwindow* window_;
+
+	/**
+	 * \brief to delta time between two frames
+	 */
+	GLdouble last_frame_timestamp;
+
+	/**
+	 * \brief to delta time between two frames
+	 */
+	GLdouble current_frame_timestamp;
+
 
 	//***** ****** *****//
 

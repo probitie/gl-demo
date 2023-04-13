@@ -4,7 +4,7 @@
 #include "logger.h"
 
 render_system_t::render_system_t(const window_t& win)
-	: window_(win.ptr())
+	: window_(win.ptr()), last_frame_timestamp{ 0 }, current_frame_timestamp{ 0 }
 {
 	// do not forget to init glfw
 
@@ -26,6 +26,8 @@ render_system_t::render_system_t(const window_t& win)
 
 	DBG(glViewport(0, 0, win.width(), win.height()));
 
+	// Enable depth testing for proper drawing 3D objects
+	DBG(glEnable(GL_DEPTH_TEST));
 }
 
 render_system_t::~render_system_t() noexcept(false)
@@ -44,7 +46,7 @@ void render_system_t::draw_context()
 	// TODO draw here all models like for(model_t in models) -> model_t.render()
 }
 
-void render_system_t::swap_buffers() const
+void render_system_t::swap_buffers()
 {
 	glfwSwapBuffers(window_);
 }

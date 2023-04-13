@@ -86,16 +86,15 @@ int main()
 		3, 0, 4
 	};
 	
-	const mesh_t cube = resources.load_mesh(RD_CUBE);
-	const material_t mat = resources.load_material(RD_DEFAULT);
-
-	// move to resources load_material and use RD_V_SHADER etc
-	//shader_program_t shader{vs, fs};
+	//mesh_t cube = resources.load_mesh(RD_CUBE);
+	material_t mat = resources.load_material(RD_DEFAULT);
 
 	event_system_t events{ current_window };
 
-	// move to mesh class
-	
+	camera_t camera{};
+	// todo add camera.look_at(mesh) but now for model matrix or origin idk
+
+	// TODO I cannot set up mesh object now because vao should be in main function
 	vao_t vao{};
 	vao.bind();
 	vbo_t vbo(std::move(cube_vertices));
@@ -106,34 +105,17 @@ int main()
 	vbo.unbind();
 	ebo.unbind();
 	
+	GLfloat rotation{};
 
-
-	// todo create camera class and move time count nad other things to render class
-
-	shader_program_t shader{ RD_V_SHADER_PATH, RD_F_SHADER_PATH };
-	// timer for rotation
-	float rotation{};
-	double prevTime = glfwGetTime();
-
-	// Enable depth testing
-	DBG(glEnable(GL_DEPTH_TEST));
 	while( ! events.should_close_app() )
 	{
-		// Simple timer
-		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 30)
-		{
-			rotation += 0.1f;
-			prevTime = crntTime;
-		}
+		render.start_frame();
 
-		// move camera VP matrices to camera class. Move applying camera to objects to render class
+		rotation += 20 * render.get_time_delta();
 
-		// scene.update() // TODO do i need this ?? | scene is like a model_t but with multiple meshes/materials in tree order
+		mat.enable();
+
 		render.draw_context();
-		//a_model.render();
-
-		shader.activate();
 
 		glm::mat4 model_coords = glm::mat4(1.0f);
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
@@ -145,20 +127,21 @@ int main()
 
 		int model_loc, view_loc, projection_loc;
 
-		DBG(model_loc = glGetUniformLocation(shader.ID, "model"));
-		DBG(view_loc = glGetUniformLocation(shader.ID, "view"));
-		DBG(projection_loc = glGetUniformLocation(shader.ID, "proj"));
+		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
+		DBG(view_loc = glGetUniformLocation(mat.shader_program.ID, "view"));
+		DBG(projection_loc = glGetUniformLocation(mat.shader_program.ID, "proj"));
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
 		DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view_coords)));
 		DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
+
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();
 
 		render.swap_buffers();
 		events.poll();
-		//render.fov.move(events.get_camera_movement());
+		render.end_frame();
 	}
 	
 	return 0;
