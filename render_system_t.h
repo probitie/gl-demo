@@ -19,7 +19,7 @@ public:
 	/**
 	 * \brief camera settings
 	 */
-	camera_t fov;
+	//camera_t fov;
 	//***** ****** *****//
 
 

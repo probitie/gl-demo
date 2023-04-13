@@ -91,7 +91,7 @@ int main()
 
 	event_system_t events{ current_window };
 
-	camera_t camera{};
+	camera_t camera{WINDOW_W, WINDOW_H, glm::vec3(0.0f, 0.0f, -2.0f)};
 	// todo add camera.look_at(mesh) but now for model matrix or origin idk
 
 	// TODO I cannot set up mesh object now because vao should be in main function
@@ -120,20 +120,22 @@ int main()
 		glm::mat4 model_coords = glm::mat4(1.0f);
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
 
-		glm::mat4 view_coords = glm::mat4(1.0f);
-		view_coords = glm::translate(view_coords, glm::vec3(0.0f, 0.0f, -2.0f)); // vec3 is the camera's position
+		//glm::mat4 view_coords = glm::mat4(1.0f);
+		//view_coords = glm::translate(view_coords, glm::vec3(0.0f, 0.0f, -2.0f)); // vec3 is the camera's position
 
-		glm::mat4 projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
+		//glm::mat4 projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
 
 		int model_loc, view_loc, projection_loc;
 
 		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
-		DBG(view_loc = glGetUniformLocation(mat.shader_program.ID, "view"));
-		DBG(projection_loc = glGetUniformLocation(mat.shader_program.ID, "proj"));
+		//DBG(view_loc = glGetUniformLocation(mat.shader_program.ID, "view"));
+		//DBG(projection_loc = glGetUniformLocation(mat.shader_program.ID, "proj"));
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
-		DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view_coords)));
-		DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
+		//DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view_coords)));
+		//DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
+
+		camera.apply(mat.shader_program);
 
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
