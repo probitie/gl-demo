@@ -26,7 +26,18 @@ void camera_t::go(const glm::vec3& destination)
 {}
 
 void camera_t::move(const glm::vec3& on)
-{}
+{
+	infolog("were on " << "{" 
+		<< position.x << "; " 
+		<< position.y << "; " 
+		<< position.z);
+	position += on;
+
+	infolog("moved to " << "{"
+		<< position.x << "; "
+		<< position.y << "; "
+		<< position.z);
+}
 
 void camera_t::rotate(GLfloat angle, const glm::vec3& axis)
 {}
@@ -39,6 +50,16 @@ void camera_t::apply(
 	raw_str proj_uniform_name,
 	raw_str view_uniform_name)
 {
+
+	glm::mat4 view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
+	glm::mat4 proj = glm::perspective(
+		glm::radians(vertical_perspective_degrees),
+		static_cast<GLfloat>(width) / height,
+		min_clip,
+		max_clip
+	);
+
+	// pushing uniforms to the shader
 	int view_loc, projection_loc;
 	DBG(view_loc = glGetUniformLocation(shader_program.ID, view_uniform_name));
 	DBG(projection_loc = glGetUniformLocation(shader_program.ID, proj_uniform_name));

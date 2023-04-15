@@ -111,7 +111,9 @@ int main()
 	{
 		render.start_frame();
 
-		rotation += 20 * render.get_time_delta();
+		auto delta = render.get_time_delta();
+		rotation += 20 * delta;
+		camera.move({ 0.1f * delta, 0.f, 0.f });
 
 		mat.enable();
 
