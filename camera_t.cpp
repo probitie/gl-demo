@@ -4,7 +4,7 @@ camera_t::camera_t(GLint width, GLint height, glm::vec3 position)
 	:	view{ 1.f },
 		proj{ 1.f },
 		position{ position },
-		direction{ 1.f, 0.f, 0.f},
+		direction{ 0.f, 0.f, 1.f},
 		up{ 0.f, 1.f, 0.f },
 		vertical_perspective_degrees{ 45.f },
 		zoom{ 1.f},
@@ -27,19 +27,17 @@ void camera_t::go(const glm::vec3& destination)
 
 void camera_t::move(const glm::vec3& on)
 {
-	infolog("were on " << "{" 
-		<< position.x << "; " 
-		<< position.y << "; " 
-		<< position.z);
 	position += on;
-
-	infolog("moved to " << "{"
-		<< position.x << "; "
-		<< position.y << "; "
-		<< position.z);
+	debuglog("moved to " << RD_VEC3_TO_STR(position));
 }
 
 void camera_t::rotate(GLfloat angle, const glm::vec3& axis)
+{}
+void camera_t::rotate_roll(GLfloat angle)
+{}
+void camera_t::rotate_pitch(GLfloat angle)
+{}
+void camera_t::rotate_yaw(GLfloat angle)
 {}
 
 void camera_t::look_at(const glm::vec3& target)
@@ -52,6 +50,13 @@ void camera_t::apply(
 {
 
 	glm::mat4 view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
+
+	view = glm::lookAt(position, position + direction, up);
+
+	// this is a way to read camera's direction from view 
+	// glm::vec3 dir{ view[2][0], view[2][1], view[2][2] };
+	// infolog("look direction: " << RD_VEC3_TO_STR(dir));
+
 	glm::mat4 proj = glm::perspective(
 		glm::radians(vertical_perspective_degrees),
 		static_cast<GLfloat>(width) / height,

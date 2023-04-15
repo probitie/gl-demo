@@ -30,13 +30,10 @@ public:
 	 */
 	void move(const glm::vec3& on);
 
-	/**
-	 * \brief rotates camera on specific angle around an axis
-	 * \param angle 
-	 * \param axis 1-vector that describes axis like (0 1 0), but it actually can be anything
-	 */
-	void rotate(GLfloat angle, const glm::vec3& axis);
 
+	void rotate_roll(GLfloat angle);
+	void rotate_pitch(GLfloat angle);
+	void rotate_yaw(GLfloat angle);
 
 	void look_at(const glm::vec3& target);
 
@@ -56,9 +53,9 @@ public:
 	 *        matrix (object's origin point) and other uniforms
 	 *        but this method doesn't give a **** about that)
 	 *
-	 * \param shader_program 
-	 * \param proj_uniform_name 
-	 * \param view_uniform_name
+	 * \param shader_program shader program (should be enabled)
+	 * \param proj_uniform_name name of a projection matrix uniform
+	 * \param view_uniform_name name of a view matrix uniform
 	 */
 	void apply(
 		shader_program_t& shader_program,
@@ -88,6 +85,15 @@ private:
 	GLfloat max_clip;
 	GLfloat min_clip;
 
+
+	/// METHODS
+
+	/**
+	 * \brief rotates camera on specific angle around an axis
+	 * \param angle angle to turn
+	 * \param axis any vector (will be normalized)
+	 */
+	void rotate(GLfloat angle, const glm::vec3& axis);
 
 };
 
