@@ -114,11 +114,15 @@ int main()
 		render.start_frame();
 
 		auto delta = render.get_time_delta();
+
+		events.update_camera(camera, delta);
 		//rotation += 20 * delta;
 		//camera.move({ 0.1f * delta, 0.f, 0.f });
-		camera.rotate_roll( 30*delta);
+		//camera.rotate_roll( 30*delta);
+		//camera.rotate_pitch( 30*delta);
+		//camera.rotate_yaw( 30*delta);
 		mat.enable();
-
+		// TODO pixels per second as a common speed metric
 		render.draw_context();
 
 		glm::mat4 model_coords = glm::mat4(1.0f);

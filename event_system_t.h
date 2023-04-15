@@ -1,4 +1,5 @@
 #pragma once
+#include "camera_t.h"
 #include "libs.h"
 #include "window_t.h"
 
@@ -10,7 +11,7 @@ class event_system_t
 
 public:
 
-	event_system_t(const window_t& win) : window_{ win.ptr()} {}
+	event_system_t(const window_t& win);
 
 	/**
 	 * \brief parses user input
@@ -28,6 +29,10 @@ public:
 	 * \brief checks parsed user input for movement keys
 	 */
 	std::vector<int> get_camera_movement();
+
+	// TODO make it as Observer pattern
+
+	void update_camera(camera_t& camera, GLfloat delta);
 
 private:
 	/**

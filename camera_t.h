@@ -1,7 +1,5 @@
 #pragma once
 #include "libs.h"
-
-#include "event_system_t.h"
 #include "shader_program_t.h"
 
 /**

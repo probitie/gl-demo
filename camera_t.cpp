@@ -33,26 +33,32 @@ void camera_t::move(const glm::vec3& on)
 
 void camera_t::rotate(GLfloat angle_degrees, const glm::vec3& axis)
 {
-}
-void camera_t::rotate_roll(GLfloat angle_degrees) // Z
-{
-	debuglog("rotating roll on " << angle_degrees << "degrees");
 	auto rads = glm::radians(angle_degrees);
 	debuglog("rotation degrees to radians " << rads);
-	glm::vec3 axis = { 0.f, 0.f, 1.f };
 	glm::quat rotation_quat = glm::angleAxis(rads, axis);
 	direction = glm::rotate(rotation_quat, direction);
 	up = glm::rotate(rotation_quat, up);
 	debuglog("rotation quaternion: " << RD_VEC3_TO_STR(direction));
 	debuglog("new direction: " << RD_VEC3_TO_STR(direction));
 	debuglog("new up: " << RD_VEC3_TO_STR(up));
-
+}
+void camera_t::rotate_roll(GLfloat angle_degrees) // Z
+{
+	debuglog("rotating roll on " << angle_degrees << "degrees");
+	glm::vec3 axis = { 0.f, 0.f, 1.f };
+	rotate(angle_degrees, axis);
 }
 void camera_t::rotate_pitch(GLfloat angle_degrees) // X
 {
+	debuglog("rotating pitch on " << angle_degrees << "degrees");
+	glm::vec3 axis = { 1.f, 0.f, 0.f };
+	rotate(angle_degrees, axis);
 }
 void camera_t::rotate_yaw(GLfloat angle_degrees) // Y
 {
+	debuglog("rotating yaw on " << angle_degrees << "degrees");
+	glm::vec3 axis = { 0.f, 1.f, 0.f };
+	rotate(angle_degrees, axis);
 }
 
 void camera_t::look_at(const glm::vec3& target)
