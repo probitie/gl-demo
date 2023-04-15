@@ -31,14 +31,29 @@ void camera_t::move(const glm::vec3& on)
 	debuglog("moved to " << RD_VEC3_TO_STR(position));
 }
 
-void camera_t::rotate(GLfloat angle, const glm::vec3& axis)
-{}
-void camera_t::rotate_roll(GLfloat angle)
-{}
-void camera_t::rotate_pitch(GLfloat angle)
-{}
-void camera_t::rotate_yaw(GLfloat angle)
-{}
+void camera_t::rotate(GLfloat angle_degrees, const glm::vec3& axis)
+{
+}
+void camera_t::rotate_roll(GLfloat angle_degrees) // Z
+{
+	debuglog("rotating roll on " << angle_degrees << "degrees");
+	auto rads = glm::radians(angle_degrees);
+	debuglog("rotation degrees to radians " << rads);
+	glm::vec3 axis = { 0.f, 0.f, 1.f };
+	glm::quat rotation_quat = glm::angleAxis(rads, axis);
+	direction = glm::rotate(rotation_quat, direction);
+	up = glm::rotate(rotation_quat, up);
+	debuglog("rotation quaternion: " << RD_VEC3_TO_STR(direction));
+	debuglog("new direction: " << RD_VEC3_TO_STR(direction));
+	debuglog("new up: " << RD_VEC3_TO_STR(up));
+
+}
+void camera_t::rotate_pitch(GLfloat angle_degrees) // X
+{
+}
+void camera_t::rotate_yaw(GLfloat angle_degrees) // Y
+{
+}
 
 void camera_t::look_at(const glm::vec3& target)
 {}
@@ -49,9 +64,9 @@ void camera_t::apply(
 	raw_str view_uniform_name)
 {
 
-	glm::mat4 view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
+	//glm::mat4 view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
 
-	view = glm::lookAt(position, position + direction, up);
+	glm::mat4 view = glm::lookAt(position, position + direction, up);
 
 	// this is a way to read camera's direction from view 
 	// glm::vec3 dir{ view[2][0], view[2][1], view[2][2] };

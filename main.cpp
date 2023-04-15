@@ -107,14 +107,16 @@ int main()
 	
 	GLfloat rotation{};
 
+
+
 	while( ! events.should_close_app() )
 	{
 		render.start_frame();
 
 		auto delta = render.get_time_delta();
-		rotation += 20 * delta;
-		camera.move({ 0.1f * delta, 0.f, 0.f });
-
+		//rotation += 20 * delta;
+		//camera.move({ 0.1f * delta, 0.f, 0.f });
+		camera.rotate_roll( 30*delta);
 		mat.enable();
 
 		render.draw_context();
