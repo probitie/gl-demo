@@ -29,6 +29,13 @@ public:
 	void move(const glm::vec3& on);
 
 
+	//speed > 0
+	void move_forward(const float speed);
+	void move_backward(const float speed);
+	void move_left(const float speed);
+	void move_right(const float speed);
+
+
 	void rotate_roll(GLfloat angle);
 	void rotate_pitch(GLfloat angle);
 	void rotate_yaw(GLfloat angle);

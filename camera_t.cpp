@@ -31,6 +31,35 @@ void camera_t::move(const glm::vec3& on)
 	debuglog("moved to " << RD_VEC3_TO_STR(position));
 }
 
+void camera_t::move_forward(const float speed)
+{
+	debuglog("moving forward with speed " << speed);
+	debuglog("direction was " << RD_VEC3_TO_STR(direction));
+	debuglog("position was " << RD_VEC3_TO_STR(position));
+	position += direction * speed;
+	debuglog("position NOW " << RD_VEC3_TO_STR(position));
+
+}
+
+void camera_t::move_backward(const float speed)
+{
+	position -= direction * speed;
+}
+
+void camera_t::move_left(const float speed)
+{
+	auto left = glm::cross(up, direction);
+	left = glm::normalize(left);
+	position += left * speed;
+}
+
+void camera_t::move_right(const float speed)
+{
+	auto right = glm::cross(direction, up);
+	right = glm::normalize(right);
+	position += right * speed;
+}
+
 void camera_t::rotate(GLfloat angle_degrees, const glm::vec3& axis)
 {
 	auto rads = glm::radians(angle_degrees);

@@ -30,40 +30,41 @@ bool event_system_t::should_close_app()
 	return glfwWindowShouldClose(window_);
 }
 
+// TODO move to camera class
 void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 {
-	float speed = 0.008;
-	float rotation_speed = 0.8;
+	float speed = 0.02;
+	float rotation_speed = 5; // sensitivity
 	// Handles key inputs
 
 	// TODO move_forward / backward / right / left + assert that move_on param is greater than 0
 	if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		camera.move(speed * glm::vec3{ 0.f, 0.f, 1.f });
+		camera.move_forward(speed);
 	}
 	if (glfwGetKey(window_, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		camera.move(speed * glm::vec3{ 1.f, 0.f, 0.f });
+		camera.move_left(speed);
 	}
 	if (glfwGetKey(window_, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		camera.move(speed * -glm::vec3{ 0.f, 0.f, 1.f });
+		camera.move_backward(speed);
 	}
 	if (glfwGetKey(window_, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		camera.move(speed * -glm::vec3{ 1.f, 0.f, 0.f });
+		camera.move_right(speed);
 	}
 
 	// handles mouse
 	double xpos{}, ypos{};
 
 	glfwGetCursorPos(window_, &xpos, &ypos);
-	infolog("mouse x " << xpos << "; y " << ypos);
+	debuglog("mouse x " << xpos << "; y " << ypos);
 
-	float pitch_angle = rotation_speed * ypos * delta; //y
-	float yaw_angle = -rotation_speed * xpos * delta; //x
+	float pitch_angle = rotation_speed * ypos * delta;
+	float yaw_angle = -rotation_speed * xpos * delta;
 
-	infolog("pitch " << pitch_angle << "; yaw " << yaw_angle);
+	debuglog("pitch " << pitch_angle << "; yaw " << yaw_angle);
 
 	camera.rotate_pitch(pitch_angle); 
 	camera.rotate_yaw(yaw_angle);
