@@ -26,6 +26,13 @@
 << (vec3).z << "} "\
 )
 
+#define RD_VEC4_TO_STR(vec4) RD_STREAM_TO_STR(\
+"{"<< (vec4).x << "; "\
+<< (vec4).y << "; "\
+<< (vec4).z << "; "\
+<< (vec4).w << "} "\
+)
+
 // you can use it like this "debuglog("Hello " << user->name)"
 #define RD_WRITE_LOG(outbuffer, level, message) outbuffer << "[" << (level) \
 << "]\t" << RD_GET_PLACE_IN_CODE(0) << message << "\n"

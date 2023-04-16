@@ -34,7 +34,7 @@ bool event_system_t::should_close_app()
 void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 {
 	float speed = 0.02;
-	float rotation_speed = 5; // sensitivity
+	float rotation_speed = 10; // sensitivity
 	// Handles key inputs
 
 	// TODO move_forward / backward / right / left + assert that move_on param is greater than 0
@@ -55,6 +55,30 @@ void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 		camera.move_right(speed);
 	}
 
+
+	// for debug rotation, replace with mouse movement
+
+	// this block enables rotation by arrow keys
+	/*
+	if (glfwGetKey(window_, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		camera.rotate_yaw(rotation_speed * delta);
+	}
+	if (glfwGetKey(window_, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		camera.rotate_yaw(-rotation_speed * delta);
+	}
+	if (glfwGetKey(window_, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		camera.rotate_pitch(rotation_speed* delta);
+	}
+	if (glfwGetKey(window_, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		camera.rotate_pitch(-rotation_speed* delta);
+	}
+	*/
+
+
 	// handles mouse
 	double xpos{}, ypos{};
 
@@ -66,6 +90,7 @@ void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 
 	debuglog("pitch " << pitch_angle << "; yaw " << yaw_angle);
 
+	// commented for debugging
 	camera.rotate_pitch(pitch_angle); 
 	camera.rotate_yaw(yaw_angle);
 
