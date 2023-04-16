@@ -48,13 +48,13 @@ void camera_t::rotate_roll(GLfloat angle_degrees) // Z
 	glm::vec3 axis = { 0.f, 0.f, 1.f };
 	rotate(angle_degrees, axis);
 }
-void camera_t::rotate_pitch(GLfloat angle_degrees) // X
+void camera_t::rotate_pitch(GLfloat angle_degrees) // rotate around X 
 {
 	debuglog("rotating pitch on " << angle_degrees << "degrees");
 	glm::vec3 axis = { 1.f, 0.f, 0.f };
 	rotate(angle_degrees, axis);
 }
-void camera_t::rotate_yaw(GLfloat angle_degrees) // Y
+void camera_t::rotate_yaw(GLfloat angle_degrees) // rotate around Y 
 {
 	debuglog("rotating yaw on " << angle_degrees << "degrees");
 	glm::vec3 axis = { 0.f, 1.f, 0.f };

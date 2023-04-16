@@ -40,5 +40,10 @@ private:
 	 */
 	GLFWwindow* window_;
 
+	void reset_cursor_position()
+	{
+		glfwSetCursorPos(window_, 0, 0);
+	};
+
 };
 
