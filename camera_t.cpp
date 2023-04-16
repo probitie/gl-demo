@@ -6,7 +6,6 @@ camera_t::camera_t(GLint width, GLint height, glm::vec3 position)
 		position{ position },
 		direction{ 0.f, 0.f, 1.f},
 		up{ 0.f, 1.f, 0.f },
-		left { glm::normalize(glm::cross(up, direction)) },
 		vertical_perspective_degrees{ 45.f },
 		zoom{ 1.f},
 		width{ width },
@@ -49,28 +48,37 @@ void camera_t::move_backward(const float speed)
 
 void camera_t::move_left(const float speed)
 {
-	left = glm::cross(up, direction);
-	left = glm::normalize(left);
+	auto left = get_left_vector();
 	position += left * speed;
+}
+
+glm::vec3 camera_t::get_left_vector()
+{
+	glm::vec3 left = glm::cross(up, direction);
+	left = glm::normalize(left);
+	return left;
 }
 
 void camera_t::move_right(const float speed)
 {
-	left = glm::cross(up, direction);
-	left = glm::normalize(left);
+	auto left = get_left_vector();
 	position -= left * speed;
 }
+
+
+
+
+// TODO do something with unintended roll rotation
+
+
+
 
 void camera_t::rotate(GLfloat angle_degrees, const glm::vec3& axis)
 {
 	auto rads = glm::radians(angle_degrees);
-	infolog("rotation degrees to radians " << rads);
 	glm::quat rotation_quat = glm::angleAxis(rads, axis);
 	direction = glm::rotate(rotation_quat, direction);
 	up = glm::rotate(rotation_quat, up);
-	infolog("rotation quaternion: " << RD_VEC4_TO_STR(rotation_quat));
-	infolog("new direction: " << RD_VEC3_TO_STR(direction));
-	infolog("new up: " << RD_VEC3_TO_STR(up));
 }
 void camera_t::rotate_roll(GLfloat angle_degrees) // Z
 {
@@ -80,12 +88,12 @@ void camera_t::rotate_roll(GLfloat angle_degrees) // Z
 void camera_t::rotate_pitch(GLfloat angle_degrees) // rotate around X 
 {
 	debuglog("rotating pitch on " << angle_degrees << "degrees");
-	rotate(angle_degrees, left);
+	rotate(angle_degrees, get_left_vector());
 }
 void camera_t::rotate_yaw(GLfloat angle_degrees) // rotate around Y 
 {
 	debuglog("rotating yaw on " << angle_degrees << "degrees");
-	rotate(angle_degrees, up);
+	rotate(angle_degrees, {0.f, 1.f, 0.f} /*perpendicular to horizon*/);
 }
 
 void camera_t::look_at(const glm::vec3& target)

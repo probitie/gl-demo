@@ -33,6 +33,7 @@ public:
 	void move_forward(const float speed);
 	void move_backward(const float speed);
 	void move_left(const float speed);
+	glm::vec3 get_left_vector();
 	void move_right(const float speed);
 
 
@@ -77,7 +78,6 @@ private:
 	glm::vec3 position;
 	glm::vec3 direction;
 	glm::vec3 up;
-	glm::vec3 left; // normalized value
 
 	// commonly 45 - 90 degrees
 	GLfloat vertical_perspective_degrees;

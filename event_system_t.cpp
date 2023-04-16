@@ -33,9 +33,17 @@ bool event_system_t::should_close_app()
 // TODO move to camera class
 void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 {
-	float speed = 0.02;
-	float rotation_speed = 10; // sensitivity
+	float speed = 0.008;
+	float speed_up_ratio = 4;
+	float rotation_speed = 30; // sensitivity
 	// Handles key inputs
+
+
+	// decrease speed mode with SHIFT pressed
+	if (glfwGetKey(window_, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		speed /= speed_up_ratio;
+	}
 
 	// TODO move_forward / backward / right / left + assert that move_on param is greater than 0
 	if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS)
@@ -55,7 +63,7 @@ void event_system_t::update_camera(camera_t& camera, GLfloat delta)
 		camera.move_right(speed);
 	}
 
-
+	
 	// for debug rotation, replace with mouse movement
 
 	// this block enables rotation by arrow keys
