@@ -91,9 +91,6 @@ private:
 	GLfloat max_clip;
 	GLfloat min_clip;
 
-
-	/// METHODS
-
 	/**
 	 * \brief rotates camera on specific angle around an axis
 	 * \param angle angle to turn

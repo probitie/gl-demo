@@ -13,7 +13,7 @@ camera_t::camera_t(GLint width, GLint height, glm::vec3 position)
 		max_clip{ 100.f },
 		min_clip{ .1f }
 {
-	view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
+	view = glm::translate(glm::mat4{ 1.0f }, position);
 	proj = glm::perspective(
 		glm::radians(vertical_perspective_degrees),
 		static_cast<GLfloat>(width) / height,
@@ -28,17 +28,11 @@ void camera_t::go(const glm::vec3& destination)
 void camera_t::move(const glm::vec3& on)
 {
 	position += on;
-	debuglog("moved to " << RD_VEC3_TO_STR(position));
 }
 
 void camera_t::move_forward(const float speed)
 {
-	debuglog("moving forward with speed " << speed);
-	debuglog("direction was " << RD_VEC3_TO_STR(direction));
-	debuglog("position was " << RD_VEC3_TO_STR(position));
 	position += direction * speed;
-	debuglog("position NOW " << RD_VEC3_TO_STR(position));
-
 }
 
 void camera_t::move_backward(const float speed)
@@ -64,14 +58,6 @@ void camera_t::move_right(const float speed)
 	auto left = get_left_vector();
 	position -= left * speed;
 }
-
-
-
-
-// TODO do something with unintended roll rotation
-
-
-
 
 void camera_t::rotate(GLfloat angle_degrees, const glm::vec3& axis)
 {
@@ -104,15 +90,7 @@ void camera_t::apply(
 	raw_str proj_uniform_name,
 	raw_str view_uniform_name)
 {
-
-	//glm::mat4 view = glm::translate(glm::mat4{ 1.0f }, position); // vec3 is the camera's position
-
 	glm::mat4 view = glm::lookAt(position, position + direction, up);
-
-	// this is a way to read camera's direction from view 
-	// glm::vec3 dir{ view[2][0], view[2][1], view[2][2] };
-	// infolog("look direction: " << RD_VEC3_TO_STR(dir));
-
 	glm::mat4 proj = glm::perspective(
 		glm::radians(vertical_perspective_degrees),
 		static_cast<GLfloat>(width) / height,

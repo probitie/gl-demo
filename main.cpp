@@ -92,7 +92,6 @@ int main()
 	event_system_t events{ current_window };
 
 	camera_t camera{WINDOW_W, WINDOW_H, glm::vec3(0.0f, 0.0f, -2.0f)};
-	// todo add camera.look_at(mesh) but now for model matrix or origin idk
 
 	// TODO I cannot set up mesh object now because vao should be in main function
 	vao_t vao{};
@@ -107,6 +106,7 @@ int main()
 	
 	GLfloat rotation{};
 
+	// TODO pixels per second as a common speed metric
 
 
 	while( ! events.should_close_app() )
@@ -116,35 +116,28 @@ int main()
 		auto delta = render.get_time_delta();
 
 		events.update_camera(camera, delta);
-		//rotation += 20 * delta;
-		//camera.move({ 0.1f * delta, 0.f, 0.f });
-		//camera.rotate_roll( 30*delta);
-		//camera.rotate_pitch( 30*delta);
-		//camera.rotate_yaw( 30*delta);
 		mat.enable();
-		// TODO pixels per second as a common speed metric
 		render.draw_context();
 
 		glm::mat4 model_coords = glm::mat4(1.0f);
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
 
-		//glm::mat4 view_coords = glm::mat4(1.0f);
-		//view_coords = glm::translate(view_coords, glm::vec3(0.0f, 0.0f, -2.0f)); // vec3 is the camera's position
-
-		//glm::mat4 projection_coords = glm::perspective(glm::radians(45.f), (float)WINDOW_W / WINDOW_H, 0.1f, 100.f);
-
-		int model_loc, view_loc, projection_loc;
-
-		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
-		//DBG(view_loc = glGetUniformLocation(mat.shader_program.ID, "view"));
-		//DBG(projection_loc = glGetUniformLocation(mat.shader_program.ID, "proj"));
-
-		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
-		//DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view_coords)));
-		//DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection_coords)));
+		int model_loc;
 
 		camera.apply(mat.shader_program);
 
+		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
+
+
+		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
+		vao.bind();
+		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
+		vao.unbind();
+
+		// draw it like a second cube
+		model_coords = glm::rotate(model_coords, glm::radians(45.f), glm::vec3(.0f, 1.f, .0f));
+		model_coords = glm::translate(model_coords, glm::vec3{ 0.f, 0.f, 2.f });
+		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();
