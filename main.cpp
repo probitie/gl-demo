@@ -35,16 +35,16 @@ int main()
 		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
 	};*/
 	std::vector<vertex_t> cube_vertices = {
-		// bottom face
-		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.f, 0.f)},
-		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.f, 1.f)},
-		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.f, 0.f)},
-		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.f, 1.f)},
-		// top face
+		// 
+		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.f, 0.f)}, //tl
+		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.f, 1.f)},  //bl
+		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.f, 1.f)},   //tr
+		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.f, 0.f)},  //br
+		// 
 		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.f, 0.f)},
 		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.f, 1.f)},
-		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec2(1.f, 0.f)},
-		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f), glm::vec2(1.f, 1.f)}
+		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec2(1.f, 1.f)},
+		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f), glm::vec2(1.f, 0.f)}
 	};
 	/*std::vector<GLuint> indices = {
 		0, 1, 2, // first triangle
@@ -113,8 +113,12 @@ int main()
 
 	/// load one
 
+	//"D:\\projects\\gl\\YoutubeOpenGL\\wall.jpg";
+	//"D:\\projects\\gl\\YoutubeOpenGL\\gl_demo_ref.png";
 	raw_str texture_path = "D:\\projects\\gl\\YoutubeOpenGL\\gl_demo_ref.png";
 	int texture_width, texture_height, texture_channels;
+
+	stbi_set_flip_vertically_on_load(true);
 	stbi_uc* texture_source = stbi_load(
 		texture_path,
 		&texture_width,
@@ -155,7 +159,7 @@ int main()
 		GL_TEXTURE_2D, 0 /*mipmap lvl, specify if want to draw each mipmap manually*/,
 		GL_RGB /*store the texture in this layout (important for shaders)*/,
 		texture_width,
-		texture_height, 0, GL_RGB /*source texture layout*/,
+		texture_height, 0, GL_RGBA /*source texture layout*/,
 		GL_UNSIGNED_BYTE, texture_source
 	));
 
