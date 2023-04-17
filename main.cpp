@@ -24,7 +24,7 @@ int main()
 
 	// move this to resources implementation (it will be like a mock object for now)
 	
-	std::vector<vertex_t> vertices = {
+	/*std::vector<vertex_t> vertices = {
 		// bottom left
 		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
 		// top left
@@ -33,23 +33,23 @@ int main()
 		{glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
 		// bottom right
 		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
-	};
+	};*/
 	std::vector<vertex_t> cube_vertices = {
 		// bottom face
-		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
-		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
-		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
-		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
+		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.f, 0.f)},
+		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.f, 1.f)},
+		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.f, 0.f)},
+		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.f, 1.f)},
 		// top face
-		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
-		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
-		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f)},
-		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f)}
+		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.f, 0.f)},
+		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.f, 1.f)},
+		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec2(1.f, 0.f)},
+		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f), glm::vec2(1.f, 1.f)}
 	};
-	std::vector<GLuint> indices = {
+	/*std::vector<GLuint> indices = {
 		0, 1, 2, // first triangle
 		2, 3, 0  // second triangle
-	};
+	};*/
 	std::vector<GLuint> cube_indices = {
 		// bottom face
 		0, 1, 2,
@@ -70,7 +70,7 @@ int main()
 		3, 2, 6,
 		6, 7, 3
 	};
-	std::vector<vertex_t> pyro_vertices = {
+	/*std::vector<vertex_t> pyro_vertices = {
 	{glm::vec3(-0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
 	{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
 	{glm::vec3(0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
@@ -84,7 +84,7 @@ int main()
 		1, 2, 4,
 		2, 3, 4,
 		3, 0, 4
-	};
+	};*/
 	
 	//mesh_t cube = resources.load_mesh(RD_CUBE);
 	material_t mat = resources.load_material(RD_DEFAULT);
@@ -100,6 +100,7 @@ int main()
 	ebo_t ebo(std::move(cube_indices));
 	vao.set_attribute(vbo, 0, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, position));
 	vao.set_attribute(vbo, 1, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, color));
+	vao.set_attribute(vbo, 2, 2, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, texture_pos));
 	vao.unbind();
 	vbo.unbind();
 	ebo.unbind();
@@ -112,7 +113,7 @@ int main()
 
 	/// load one
 
-	raw_str texture_path = "";
+	raw_str texture_path = "D:\\projects\\gl\\YoutubeOpenGL\\gl_demo_ref.png";
 	int texture_width, texture_height, texture_channels;
 	stbi_uc* texture_source = stbi_load(
 		texture_path,
@@ -160,7 +161,7 @@ int main()
 
 	// generate mipmap for bound texture 2D
 	// (means other currently bound 1D and 3D textures will not be touched)
-	glGenerateMipmap(GL_TEXTURE_2D);
+	DBG(glGenerateMipmap(GL_TEXTURE_2D));
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -186,6 +187,8 @@ int main()
 
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
+
+		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();
