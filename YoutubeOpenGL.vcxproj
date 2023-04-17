@@ -151,6 +151,7 @@
     <ClCompile Include="render_system_t.cpp" />
     <ClCompile Include="resource_system_t.cpp" />
     <ClCompile Include="shader_program_t.cpp" />
+    <ClCompile Include="stb.cpp" />
     <ClCompile Include="vao_t.cpp" />
     <ClCompile Include="vbo_t.cpp" />
     <ClCompile Include="window_t.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="render_system_t.h" />
     <ClInclude Include="resource_system_t.h" />
     <ClInclude Include="shader_program_t.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="vao_t.h" />
     <ClInclude Include="vbo_t.h" />
     <ClInclude Include="vertex_t.h" />
@@ -177,6 +179,9 @@
   <ItemGroup>
     <None Include="fragment.fs" />
     <None Include="vertex.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="gl_demo_ref.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

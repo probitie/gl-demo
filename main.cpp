@@ -108,6 +108,62 @@ int main()
 
 	// TODO pixels per second as a common speed metric
 
+	/// textures
+
+	/// load one
+
+	raw_str texture_path = "";
+	int texture_width, texture_height, texture_channels;
+	stbi_uc* texture_source = stbi_load(
+		texture_path,
+		&texture_width,
+		&texture_height,
+		&texture_channels,
+		0
+	);
+	RD_ASSERT(texture_source, "can't load a texture - pointer is nullprt");
+
+	// set texture parameters
+
+	// how to deal with out-of-range pixels on S (x axis)
+	DBG(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT));
+
+	// how to deal with out-of-range pixels on T (y axis)
+	DBG(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT));
+
+	// handle a case when a surface to be bound with texture is bigger that texture itself
+	// so the texture considers low-quality there
+	DBG(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+
+	// when doing the opposite - scaling down the texture
+	// but if we are using mipmaps there we should tell opengl also interpolate between
+	// two closest mipmaps for the texture. Because when opengl changes a texture to
+	// its next mipmap when downscaling, a texture image suddenly might become with better
+	// quality or like so // TODO test this assumption
+	DBG(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+
+	// generate openlg texture object
+	GLuint texture;
+	DBG(glGenTextures(1, &texture));
+
+	// enable that created texture to apply further operations to it
+	DBG(glBindTexture(GL_TEXTURE_2D, texture));
+
+	// load texture data to GRAM
+	DBG(glTexImage2D(
+		GL_TEXTURE_2D, 0 /*mipmap lvl, specify if want to draw each mipmap manually*/,
+		GL_RGB /*store the texture in this layout (important for shaders)*/,
+		texture_width,
+		texture_height, 0, GL_RGB /*source texture layout*/,
+		GL_UNSIGNED_BYTE, texture_source
+	));
+
+	// generate mipmap for bound texture 2D
+	// (means other currently bound 1D and 3D textures will not be touched)
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// free image from main RAM as it is already loaded into GRAM
+	stbi_image_free(texture_source);
 
 	while( ! events.should_close_app() )
 	{
