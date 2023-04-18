@@ -170,7 +170,8 @@ int main()
 	// (means other currently bound 1D and 3D textures will not be touched)
 	DBG(glGenerateMipmap(GL_TEXTURE_2D));
 
-	glm::vec3 light{ .1f, .1f, .1f };
+	glm::vec3 ambient_light{ .1f, .1f, .1f };
+	//glm::vec3 ambient_light{ 1.f, 1.f, 1.f };
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -192,13 +193,13 @@ int main()
 		camera.apply(mat.shader_program);
 
 		// add light
-		GLint light_loc;
-		DBG(light_loc = glGetUniformLocation(mat.shader_program.ID, "inLight"));
-		DBG(glUniform3fv(light_loc, 1, glm::value_ptr(light)));
+		mat.shader_program.setVector3f("ambient_light", ambient_light);
 
-		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
+		// TODO texture transparency - to make a white cube when is necessary
+		//GLfloat texture_transparency = 0.f;
+		//mat.shader_program.setFloat("texture_transparency", texture_transparency);
 
-		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
+		mat.shader_program.setMatrix4f("model", model_coords);
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();
@@ -208,7 +209,7 @@ int main()
 		// draw it like a second cube
 		model_coords = glm::rotate(model_coords, glm::radians(45.f), glm::vec3(.0f, 1.f, .0f));
 		model_coords = glm::translate(model_coords, glm::vec3{ 0.f, 0.f, 2.f });
-		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
+		mat.shader_program.setMatrix4f("model", model_coords);
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();

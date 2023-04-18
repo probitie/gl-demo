@@ -2,11 +2,11 @@
 out vec4 FragColor;  
 in vec3 ourColor;
 in vec2 texCoord;
-in vec3 ourLight;
 
+uniform vec3 ambient_light;
 uniform sampler2D ourTexture;
   
 void main()
 {                                                                    // disabled color
-    FragColor = vec4(ourLight, 1.0f) * (texture(ourTexture, texCoord) ); // * vec4(ourColor, 1.0f));
+    FragColor = vec4(ambient_light, 1.0f) * (texture(ourTexture, texCoord) ); // * vec4(ourColor, 1.0f));
 }

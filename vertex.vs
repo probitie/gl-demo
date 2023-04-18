@@ -11,12 +11,10 @@ out vec3 ourLight;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;
-uniform vec3 inLight; // TODO move this uniform to fragment shader
 
 void main()
 {
     gl_Position = proj * view * model * vec4(aPos, 1.0);
     ourColor = aColor; // set ourColor to the input color we got from the vertex data
     texCoord = aTexel;
-    ourLight = inLight;
 } 
