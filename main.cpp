@@ -115,6 +115,9 @@ int main()
 
 	//"D:\\projects\\gl\\YoutubeOpenGL\\wall.jpg";
 	//"D:\\projects\\gl\\YoutubeOpenGL\\gl_demo_ref.png";
+
+	// TODO RGBA for png, RGB for jpg
+
 	raw_str texture_path = "D:\\projects\\gl\\YoutubeOpenGL\\gl_demo_ref.png";
 	int texture_width, texture_height, texture_channels;
 
@@ -167,9 +170,10 @@ int main()
 	// (means other currently bound 1D and 3D textures will not be touched)
 	DBG(glGenerateMipmap(GL_TEXTURE_2D));
 
+	glm::vec3 light{ .1f, .1f, .1f };
+
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
-
 	while( ! events.should_close_app() )
 	{
 		render.start_frame();
@@ -187,8 +191,12 @@ int main()
 
 		camera.apply(mat.shader_program);
 
-		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
+		// add light
+		GLint light_loc;
+		DBG(light_loc = glGetUniformLocation(mat.shader_program.ID, "inLight"));
+		DBG(glUniform3fv(light_loc, 1, glm::value_ptr(light)));
 
+		DBG(model_loc = glGetUniformLocation(mat.shader_program.ID, "model"));
 
 		DBG(glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model_coords)));
 

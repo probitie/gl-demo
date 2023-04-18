@@ -5,15 +5,18 @@ layout (location = 2) in vec2 aTexel; // texture pos
 
 out vec3 ourColor; // output a color to the fragment shader
 out vec2 texCoord;
+out vec3 ourLight;
 
 // uniform float scale; // unused
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;
+uniform vec3 inLight; // TODO move this uniform to fragment shader
 
 void main()
 {
     gl_Position = proj * view * model * vec4(aPos, 1.0);
     ourColor = aColor; // set ourColor to the input color we got from the vertex data
     texCoord = aTexel;
+    ourLight = inLight;
 } 
