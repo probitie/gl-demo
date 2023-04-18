@@ -195,9 +195,8 @@ int main()
 		// add light
 		mat.shader_program.setVector3f("ambient_light", ambient_light);
 
-		// TODO texture transparency - to make a white cube when is necessary
-		//GLfloat texture_transparency = 0.f;
-		//mat.shader_program.setFloat("texture_transparency", texture_transparency);
+
+		mat.shader_program.setBool("use_texture", true);
 
 		mat.shader_program.setMatrix4f("model", model_coords);
 
@@ -207,6 +206,8 @@ int main()
 		vao.unbind();
 
 		// draw it like a second cube
+		// without a texture
+		mat.shader_program.setBool("use_texture", false);
 		model_coords = glm::rotate(model_coords, glm::radians(45.f), glm::vec3(.0f, 1.f, .0f));
 		model_coords = glm::translate(model_coords, glm::vec3{ 0.f, 0.f, 2.f });
 		mat.shader_program.setMatrix4f("model", model_coords);
