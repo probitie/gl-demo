@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragment.fs" />
+    <None Include="light_fragment.fs" />
     <None Include="vertex.vs" />
   </ItemGroup>
   <ItemGroup>

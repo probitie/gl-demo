@@ -89,6 +89,8 @@ int main()
 	//mesh_t cube = resources.load_mesh(RD_CUBE);
 	material_t mat = resources.load_material(RD_DEFAULT);
 
+	shader_program_t light_shader{ RD_V_SHADER_PATH, RD_LIGHT_F_SHADER_PATH };
+
 	event_system_t events{ current_window };
 
 	camera_t camera{WINDOW_W, WINDOW_H, glm::vec3(0.0f, 0.0f, -2.0f)};
@@ -188,8 +190,6 @@ int main()
 		glm::mat4 model_coords = glm::mat4(1.0f);
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
 
-		int model_loc;
-
 		camera.apply(mat.shader_program);
 
 		// add light
@@ -205,12 +205,13 @@ int main()
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();
 
-		// draw it like a second cube
-		// without a texture
-		mat.shader_program.setBool("use_texture", false);
+		mat.shader_program.deactivate();
+		// draw second white cube as a light source
+		light_shader.activate();
+		camera.apply(light_shader);
 		model_coords = glm::rotate(model_coords, glm::radians(45.f), glm::vec3(.0f, 1.f, .0f));
 		model_coords = glm::translate(model_coords, glm::vec3{ 0.f, 0.f, 2.f });
-		mat.shader_program.setMatrix4f("model", model_coords);
+		light_shader.setMatrix4f("model", model_coords);
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
 		vao.unbind();
