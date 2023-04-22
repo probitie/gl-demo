@@ -16,6 +16,9 @@ public:
 	 */
 	camera_t(GLint width, GLint height, glm::vec3 position = {0.f, 0.f, 0.f});
 
+	// it is better not to use ref here
+	const glm::vec3& get_position() const { return position; }
+
 	/**
 	 * \brief moves camera to specific point
 	 * \param destination vector/point to go to

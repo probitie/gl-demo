@@ -166,8 +166,10 @@ int main()
 	glm::vec3 a_diffuse_light{ 1.f, 1.f, 1.f };
 
 	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
-	//glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
-	glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
+	glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
+	//glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
+
+	GLfloat light_movement{0.f};
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -176,6 +178,7 @@ int main()
 		render.start_frame();
 
 		auto delta = render.get_time_delta();
+		//light_movement += delta * 2;
 
 		events.update_camera(camera, delta);
 		mat.enable();
@@ -192,7 +195,7 @@ int main()
 
 		mat.shader_program.setMatrix4f("model", model_coords);
 		mat.shader_program.setVector3f("a_diffuse_light", a_diffuse_light);
-		mat.shader_program.setVector3f("a_diffuse_light_pos", a_diffuse_light_pos);
+		mat.shader_program.setVector3f("a_diffuse_light_pos", camera.get_position());
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();

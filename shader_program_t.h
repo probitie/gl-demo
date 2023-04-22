@@ -95,27 +95,27 @@ public:
 
     // utility uniform functions
     // ------------------------------------------------------------------------
-    void setBool(const std::string& name, bool value) const
+    void setBool(const std::string& name, const bool value) const
     {
         DBG(glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value));
     }
     // ------------------------------------------------------------------------
-    void setInt(const std::string& name, int value) const
+    void setInt(const std::string& name, const int value) const
     {
         DBG(glUniform1i(glGetUniformLocation(ID, name.c_str()), value));
     }
     // ------------------------------------------------------------------------
-    void setFloat(const std::string& name, float value) const
+    void setFloat(const std::string& name, const float value) const
     {
         DBG(glUniform1f(glGetUniformLocation(ID, name.c_str()), value));
     }
 
-    void setVector3f(const std::string& name, glm::vec3& vec) const
+    void setVector3f(const std::string& name, const glm::vec3& vec) const
     {
         DBG(glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, glm::value_ptr(vec)));
     }
 
-    void setMatrix4f(const std::string& name, glm::mat4& mat) const
+    void setMatrix4f(const std::string& name, const glm::mat4& mat) const
     {
         DBG(glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat)));
     }
