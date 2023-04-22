@@ -20,13 +20,13 @@ void main()
     // diffuse_light_intencity = cos(source, normal)
     // diffuse_light = d_l_source * normalize(diffuse_light_intencity)
     //
-    float cosine = dot(a_diffuse_light_pos, normal) /
-    (length(a_diffuse_light_pos) * length(normal));
+    //float cosine = dot(a_diffuse_light_pos, normal) /
+    //(length(a_diffuse_light_pos) * length(normal));
 
-    vec3 diffuse_light = cosine * a_diffuse_light;
+    //vec3 diffuse_light = cosine * a_diffuse_light;
 
     vec4 texel = texture(the_texture, texuv);
 
     // intensivity (another uniform) depends on 
-    FragColor = vec4(diffuse_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
+    FragColor = vec4(ambient_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
 }

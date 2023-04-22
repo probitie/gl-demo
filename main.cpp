@@ -22,53 +22,57 @@ int main()
 	render_system_t render{ current_window };
 	resource_system_t resources{};
 
+
 	std::vector<vertex_t> reflect_cube = {
+
 		// Front face
+		{{-0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // top-left
+		{{ 0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}}, // top-right              
 		{{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left
-		{{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right    
-		{{ 0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}}, // top-right              
-		{{-0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-left
+		{{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
 
 		// Back face
-		{{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
+		{{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
 		{{ 0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left    
-		{{ 0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}}, // top-left              
-		{{-0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right
+		{{ 0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-left              
+		{{-0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right
 
 		// Top face
-		{{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // bottom-left
-		{{ 0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.f}}, // bottom-right
-		{{ 0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // top-right
-		{{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // top-left
-		// Bottom face
-		{{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // top-right
-		{{ 0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-left    
-		{{ 0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // bottom-left              
-		{{-0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-right
+		{{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}}, // bottom-left
+		{{ 0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}}, // bottom-right
+	{{ 0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // top-right
+	{{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}}, // top-left
+	// Bottom face
+	{{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // top-right
+	{{ 0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // top-left    
+	{{ 0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // bottom-left              
+	{{-0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // bottom-right
 
-		// Right face
-		{{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // bottom-right
-		{{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right    
-		{{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // top-left              
-		{{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left
+	// Right face
+	{{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
+	{{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right    
+	{{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-left              
+	{{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left
 
-		// Left face
-		{{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}}, // bottom-right
-		{{-0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-right
-		{{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}}, // top-left
-		{{-0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f}} // bottom-left
-			
+	// Left face
+	{{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
+	{{-0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right
+	{{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-left
+	{{-0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}} // bottom-left
 	};
 
 	// two triangles -> six vertices -> one quad(cube surface)
 	std::vector<GLuint> reflect_cube_indices = {
-	0, 1, 2,    2, 3, 0,    // Front face
-	4, 5, 6,    6, 7, 4,    // Back face
-	8, 9, 10,   10, 11, 8,  // Top face
-	12, 13, 14, 14, 15, 12, // Bottom face
-	16, 17, 18, 18, 19, 16, // Right face
-	20, 21, 22, 22, 23, 20  // Left face
+		0, 1, 2,    1, 3, 2,    // Front face
+		4, 5, 6,    4, 6, 7,    // Back face
+		8, 9, 10,   8, 10, 11,  // Top face
+		12, 13, 14, 12, 14, 15, // Bottom face
+		16, 17, 18, 16, 18, 19, // Right face
+		20, 21, 22, 20, 22, 23  // Left face
 	};
+
+
+
 
 	material_t mat = resources.load_material(RD_DEFAULT);
 
@@ -162,7 +166,8 @@ int main()
 	glm::vec3 a_diffuse_light{ 1.f, 1.f, 1.f };
 
 	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
-	glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
+	//glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
+	glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
