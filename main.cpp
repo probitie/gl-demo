@@ -60,13 +60,14 @@ int main()
 			
 	};
 
-	std::vector<GLuint> reflect_cube_indices = { // two triangles -> six vertices -> one quad(cube surface)
-	0, 1, 2, 3, 4, 5, // back face
-	6, 7, 8, 9, 10, 11, // front face
-	12, 13, 14, 15, 16, 17, // left face
-	18, 19, 20, 21, 22, 23, // right face
-	24, 25, 26, 27, 28, 29, // bottom face
-	30, 31, 32, 33, 34, 35 // top face
+	// two triangles -> six vertices -> one quad(cube surface)
+	std::vector<GLuint> reflect_cube_indices = {
+	0, 1, 2,    2, 3, 0,    // Front face
+	4, 5, 6,    6, 7, 4,    // Back face
+	8, 9, 10,   10, 11, 8,  // Top face
+	12, 13, 14, 14, 15, 12, // Bottom face
+	16, 17, 18, 18, 19, 16, // Right face
+	20, 21, 22, 22, 23, 20  // Left face
 	};
 
 	material_t mat = resources.load_material(RD_DEFAULT);
