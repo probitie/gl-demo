@@ -2,23 +2,22 @@
 out vec4 FragColor;  
 in vec3 ourColor;
 in vec2 texCoord;
+in vec3 ourNormal;
 
 uniform vec3 ambient_light;
 uniform sampler2D ourTexture;
-uniform bool use_texture;
+
   
 void main()
 {                                                                    // disabled color
     
     vec4 texel;
-    if(use_texture)
-    {
-        texel = texture(ourTexture, texCoord);
-    }
-    else
-    {
-        texel = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    }
+    
+    // TODO implement diffuse lighting with ourNormal
+
+
+    texel = texture(ourTexture, texCoord);
+
 
     FragColor = vec4(ambient_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
 }

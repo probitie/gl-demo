@@ -22,71 +22,53 @@ int main()
 	render_system_t render{ current_window };
 	resource_system_t resources{};
 
-	// move this to resources implementation (it will be like a mock object for now)
-	
-	/*std::vector<vertex_t> vertices = {
-		// bottom left
-		{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
-		// top left
-		{glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
-		// top right
-		{glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
-		// bottom right
-		{glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
-	};*/
-	std::vector<vertex_t> cube_vertices = {
-		// 
-		{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.f, 0.f)}, //tl
-		{glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.f, 1.f)},  //bl
-		{glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.f, 1.f)},   //tr
-		{glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.f, 0.f)},  //br
-		// 
-		{glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.f, 0.f)},
-		{glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.f, 1.f)},
-		{glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec2(1.f, 1.f)},
-		{glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.5f), glm::vec2(1.f, 0.f)}
+	std::vector<vertex_t> reflect_cube = {
+		// Front face
+		{{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left
+		{{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right    
+		{{ 0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}}, // top-right              
+		{{-0.5f,  0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-left
+
+		// Back face
+		{{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}, // bottom-right
+		{{ 0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left    
+		{{ 0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}}, // top-left              
+		{{-0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right
+
+		// Top face
+		{{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // bottom-left
+		{{ 0.5f,  0.5f,  0.5f}, {0.0f, 1.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.f}}, // bottom-right
+		{{ 0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // top-right
+		{{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // top-left
+		// Bottom face
+		{{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // top-right
+		{{ 0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-left    
+		{{ 0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // bottom-left              
+		{{-0.5f, -0.5f,  0.5f}, {0.0f, -1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-right
+
+		// Right face
+		{{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f}}, // bottom-right
+		{{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // top-right    
+		{{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}}, // top-left              
+		{{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.0f,  0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // bottom-left
+
+		// Left face
+		{{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}}, // bottom-right
+		{{-0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // top-right
+		{{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}}, // top-left
+		{{-0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f}} // bottom-left
+			
 	};
-	/*std::vector<GLuint> indices = {
-		0, 1, 2, // first triangle
-		2, 3, 0  // second triangle
-	};*/
-	std::vector<GLuint> cube_indices = {
-		// bottom face
-		0, 1, 2,
-		2, 3, 0,
-		// top face
-		4, 5, 6,
-		6, 7, 4,
-		// left face
-		0, 4, 7,
-		7, 3, 0,
-		// right face
-		1, 5, 6,
-		6, 2, 1,
-		// front face
-		0, 1, 5,
-		5, 4, 0,
-		// back face
-		3, 2, 6,
-		6, 7, 3
+
+	std::vector<GLuint> reflect_cube_indices = { // two triangles -> six vertices -> one quad(cube surface)
+	0, 1, 2, 3, 4, 5, // back face
+	6, 7, 8, 9, 10, 11, // front face
+	12, 13, 14, 15, 16, 17, // left face
+	18, 19, 20, 21, 22, 23, // right face
+	24, 25, 26, 27, 28, 29, // bottom face
+	30, 31, 32, 33, 34, 35 // top face
 	};
-	/*std::vector<vertex_t> pyro_vertices = {
-	{glm::vec3(-0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
-	{glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
-	{glm::vec3(0.5f, 0.0f, -0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
-	{glm::vec3(0.5f, 0.0f, 0.5f), glm::vec3(0.83f, 0.70f, 0.44f)},
-	{glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(0.92f, 0.86f, 0.76f)}
-	};
-	std::vector<GLuint> pyro_indices = {
-		0, 1, 2,
-		0, 2, 3,
-		0, 1, 4,
-		1, 2, 4,
-		2, 3, 4,
-		3, 0, 4
-	};*/
-	
-	//mesh_t cube = resources.load_mesh(RD_CUBE);
+
 	material_t mat = resources.load_material(RD_DEFAULT);
 
 	shader_program_t light_shader{ RD_V_SHADER_PATH, RD_LIGHT_F_SHADER_PATH };
@@ -98,11 +80,12 @@ int main()
 	// TODO I cannot set up mesh object now because vao should be in main function
 	vao_t vao{};
 	vao.bind();
-	vbo_t vbo(std::move(cube_vertices));
-	ebo_t ebo(std::move(cube_indices));
+	vbo_t vbo(std::move(reflect_cube));
+	ebo_t ebo(std::move(reflect_cube_indices));
 	vao.set_attribute(vbo, 0, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, position));
-	vao.set_attribute(vbo, 1, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, color));
-	vao.set_attribute(vbo, 2, 2, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, texture_pos));
+	vao.set_attribute(vbo, 1, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, normal));
+	vao.set_attribute(vbo, 2, 3, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, color));
+	vao.set_attribute(vbo, 3, 2, GL_FLOAT, sizeof(vertex_t), offsetof(vertex_t, texture_pos));
 	vao.unbind();
 	vbo.unbind();
 	ebo.unbind();
@@ -196,7 +179,7 @@ int main()
 		mat.shader_program.setVector3f("ambient_light", ambient_light);
 
 
-		mat.shader_program.setBool("use_texture", true);
+		//mat.shader_program.setBool("use_texture", true);
 
 		mat.shader_program.setMatrix4f("model", model_coords);
 
