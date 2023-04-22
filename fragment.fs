@@ -1,23 +1,32 @@
 #version 330 core
 out vec4 FragColor;  
-in vec3 ourColor;
-in vec2 texCoord;
-in vec3 ourNormal;
+in vec3 color;
+in vec2 texuv;
+in vec3 normal;
 
 uniform vec3 ambient_light;
-uniform sampler2D ourTexture;
+uniform vec3 a_diffuse_light; // just one of (intensivity)
+uniform vec3 a_diffuse_light_pos; // just one of (intensivity)
 
+uniform sampler2D the_texture;
   
 void main()
 {                                                                    // disabled color
     
-    vec4 texel;
-    
-    // TODO implement diffuse lighting with ourNormal
+    // TODO implement diffuse lighting with normal vec
+    // so if angle between light source and normal is 90 deg - 0 diffuse lighting
+    //    if angle between ... is 0 - full diffuse lighting
+    // ???? 
+    // diffuse_light_intencity = cos(source, normal)
+    // diffuse_light = d_l_source * normalize(diffuse_light_intencity)
+    //
+    float cosine = dot(a_diffuse_light_pos, normal) /
+    (length(a_diffuse_light_pos) * length(normal));
 
+    vec3 diffuse_light = cosine * a_diffuse_light;
 
-    texel = texture(ourTexture, texCoord);
+    vec4 texel = texture(the_texture, texuv);
 
-
-    FragColor = vec4(ambient_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
+    // intensivity (another uniform) depends on 
+    FragColor = vec4(diffuse_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
 }

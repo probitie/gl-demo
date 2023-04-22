@@ -156,8 +156,13 @@ int main()
 	// (means other currently bound 1D and 3D textures will not be touched)
 	DBG(glGenerateMipmap(GL_TEXTURE_2D));
 
-	glm::vec3 ambient_light{ .1f, .1f, .1f };
+	//glm::vec3 ambient_light{ .1f, .1f, .1f };
+	glm::vec3 ambient_light{ .4f, .4f, .4f };
 	//glm::vec3 ambient_light{ 1.f, 1.f, 1.f };
+	glm::vec3 a_diffuse_light{ 1.f, 1.f, 1.f };
+
+	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
+	glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -172,6 +177,7 @@ int main()
 		render.draw_context();
 
 		glm::mat4 model_coords = glm::mat4(1.0f);
+		//rotation = 100.f * delta;
 		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
 
 		camera.apply(mat.shader_program);
@@ -179,10 +185,9 @@ int main()
 		// add light
 		mat.shader_program.setVector3f("ambient_light", ambient_light);
 
-
-		//mat.shader_program.setBool("use_texture", true);
-
 		mat.shader_program.setMatrix4f("model", model_coords);
+		mat.shader_program.setVector3f("a_diffuse_light", a_diffuse_light);
+		mat.shader_program.setVector3f("a_diffuse_light_pos", a_diffuse_light_pos);
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();

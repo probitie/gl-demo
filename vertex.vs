@@ -2,12 +2,11 @@
 layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
 layout (location = 1) in vec3 aNormal; // the color variable has attribute position 1
 layout (location = 2) in vec3 aColor;
-layout (location = 3) in vec2 aTexel; // texture pos
+layout (location = 3) in vec2 aTexuv; // texture pos
 
-out vec3 ourColor; // output a color to the fragment shader
-out vec2 texCoord;
-out vec3 ourLight;
-out vec3 ourNormal;
+out vec3 color; // output a color to the fragment shader
+out vec2 texuv;
+out vec3 normal;
 
 // uniform float scale; // unused
 uniform mat4 model;
@@ -17,7 +16,7 @@ uniform mat4 proj;
 void main()
 {
     gl_Position = proj * view * model * vec4(aPos, 1.0);
-    ourColor = aColor; // set ourColor to the input color we got from the vertex data
-    texCoord = aTexel;
-    ourNormal = aNormal;
+    color = aColor; // set ourColor to the input color we got from the vertex data
+    texuv = aTexuv;
+    normal = aNormal;
 } 
