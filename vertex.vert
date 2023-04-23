@@ -18,7 +18,12 @@ void main()
 {
     gl_Position = proj * view * model * vec4(aPos, 1.0);
     pxpos = vec3(model * vec4(aPos, 1.0)); // world-space coordinates
+
+    // suppress any non-uniform scaling ets
+    // WARNING: it is.. hmm.. very costly operation! (inverse, cuz applies to each vertex)
+    vec3 suppressed_normal = mat3(transpose(inverse(model))) * aNormal;
+
     color = aColor; // set ourColor to the input color we got from the vertex data
     texuv = aTexuv;
-    normal = aNormal;
+    normal = suppressed_normal;
 } 

@@ -208,7 +208,7 @@ int main()
 		// draw second white cube as a light source
 		light_shader.activate();
 		rotation += 30.f * delta;
-		model_coords = glm::rotate(model_coords, glm::radians(30.f * delta), glm::vec3(.0f, 1.f, .0f));
+		model_coords = glm::rotate(model_coords, glm::radians(60.f * delta), glm::normalize(glm::vec3(.0f, 1.f, .7f)));
 		model_coords = glm::translate(model_coords, light_cube_position);
 
 		light_cube_position = glm::vec3(model_coords[3]);
