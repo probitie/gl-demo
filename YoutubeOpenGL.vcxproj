@@ -177,9 +177,9 @@
     <ClInclude Include="window_t.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.fs" />
-    <None Include="light_fragment.fs" />
-    <None Include="vertex.vs" />
+    <None Include="fragment.frag" />
+    <None Include="light_fragment.frag" />
+    <None Include="vertex.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="gl_demo_ref.png" />

@@ -130,13 +130,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.fs">
+    <None Include="fragment.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="vertex.vs">
+    <None Include="vertex.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="light_fragment.fs">
+    <None Include="light_fragment.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

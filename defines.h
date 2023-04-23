@@ -19,9 +19,9 @@ using raw_str = const char*;
 
 
 
-#define RD_V_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\vertex.vs)"
-#define RD_F_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\fragment.fs)"
-#define RD_LIGHT_F_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\light_fragment.fs)"
+#define RD_V_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\vertex.vert)"
+#define RD_F_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\fragment.frag)"
+#define RD_LIGHT_F_SHADER_PATH R"(D:\projects\gl\YoutubeOpenGL\light_fragment.frag)"
 
 enum MESHES
 {
