@@ -95,7 +95,6 @@ int main()
 	vbo.unbind();
 	ebo.unbind();
 	
-	GLfloat rotation{};
 
 	// TODO pixels per second as a common speed metric
 
@@ -164,12 +163,13 @@ int main()
 
 	glm::vec3 a_diffuse_light_color{ 1.f, 1.f, 1.f };
 
-	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
-	glm::vec3 diffuse_light_pos{ -1.49101830, 5.57218266, -2.88457513 };
-	//glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
+	glm::vec3 main_cube_position{ 0.f };
+	glm::vec3 light_cube_position{ -1.49101830f, 1.57218266f, -1.88457513f };
+	glm::vec3 light_cube_radius = light_cube_position;
+	glm::vec3 light_cube_center_offset(0.25f, 0.25f, 0.25f);
 
-
-	GLfloat light_movement{0.f};
+	GLfloat rotation{};
+	GLfloat light_rotation{0.f};
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -179,14 +179,16 @@ int main()
 
 		auto delta = render.get_time_delta();
 		//light_movement += delta * 2;
+		glm::vec3 light_cube_center = light_cube_position + light_cube_center_offset;
 
 		events.update_camera(camera, delta);
 		mat.enable();
 		render.draw_context();
 
+		light_rotation += 20.f * delta;
 		glm::mat4 model_coords = glm::mat4(1.0f);
-		//rotation = 100.f * delta;
-		model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
+		model_coords = glm::translate(model_coords, main_cube_position);
+		model_coords = glm::rotate(model_coords, glm::radians(light_rotation), glm::vec3(1.0f, 0.f, .0f));
 
 		camera.apply(mat.shader_program);
 
@@ -195,8 +197,8 @@ int main()
 
 		mat.shader_program.setMatrix4f("model", model_coords);
 		mat.shader_program.setVector3f("a_diffuse_light_color", a_diffuse_light_color);
-		mat.shader_program.setVector3f("diffuse_light_pos", diffuse_light_pos); /// a_diffuse_light_pos camera.get_position()
-		mat.shader_program.setVector3f("a_specular_light_pos", camera.get_position()); /// camera.get_position()
+		mat.shader_program.setVector3f("diffuse_light_pos", light_cube_center); /// a_diffuse_light_pos camera.get_position()
+		mat.shader_program.setVector3f("a_specular_light_pos", light_cube_center); /// camera.get_position()
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();
@@ -206,9 +208,17 @@ int main()
 		mat.shader_program.deactivate();
 		// draw second white cube as a light source
 		light_shader.activate();
+		rotation += 30.f * delta;
+		model_coords = glm::mat4(1.0f);
+
+		// rotate around main cube
+		model_coords = glm::translate(model_coords, main_cube_position);
+		model_coords = glm::rotate(model_coords, glm::radians(30.f * delta), glm::vec3(.0f, 1.f, .0f));
+		model_coords = glm::translate(model_coords, light_cube_radius);
+
+		light_cube_position = glm::vec3(model_coords[3]);
+
 		camera.apply(light_shader);
-		model_coords = glm::rotate(model_coords, glm::radians(45.f), glm::vec3(.0f, 1.f, .0f));
-		model_coords = glm::translate(model_coords, glm::vec3{ 0.f, 0.f, 2.f });
 		light_shader.setMatrix4f("model", model_coords);
 		vao.bind();
 		DBG(glDrawElements(GL_TRIANGLES, ebo.get_indices_count(), GL_UNSIGNED_INT, 0));
