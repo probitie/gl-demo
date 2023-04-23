@@ -160,13 +160,12 @@ int main()
 	// (means other currently bound 1D and 3D textures will not be touched)
 	DBG(glGenerateMipmap(GL_TEXTURE_2D));
 
-	//glm::vec3 ambient_light{ .1f, .1f, .1f };
-	glm::vec3 ambient_light{ .4f, .4f, .4f };
-	//glm::vec3 ambient_light{ 1.f, 1.f, 1.f };
-	glm::vec3 a_diffuse_light{ 1.f, 1.f, 1.f };
+	glm::vec3 ambient_light_color{ 1.f, 1.f, 1.f };
+
+	glm::vec3 a_diffuse_light_color{ 1.f, 1.f, 1.f };
 
 	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
-	glm::vec3 a_diffuse_light_pos{ -1.49101830, 5.57218266, -2.88457513 };
+	glm::vec3 diffuse_light_pos{ -1.49101830, 5.57218266, -2.88457513 };
 	//glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
 
 
@@ -192,11 +191,12 @@ int main()
 		camera.apply(mat.shader_program);
 
 		// add light
-		mat.shader_program.setVector3f("ambient_light", ambient_light);
+		mat.shader_program.setVector3f("ambient_light_color", ambient_light_color);
 
 		mat.shader_program.setMatrix4f("model", model_coords);
-		mat.shader_program.setVector3f("a_diffuse_light", a_diffuse_light);
-		mat.shader_program.setVector3f("a_diffuse_light_pos", camera.get_position()); /// a_diffuse_light_pos
+		mat.shader_program.setVector3f("a_diffuse_light_color", a_diffuse_light_color);
+		mat.shader_program.setVector3f("diffuse_light_pos", diffuse_light_pos); /// a_diffuse_light_pos camera.get_position()
+		mat.shader_program.setVector3f("a_specular_light_pos", camera.get_position()); /// camera.get_position()
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();
