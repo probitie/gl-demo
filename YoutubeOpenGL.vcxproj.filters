@@ -130,10 +130,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertex.vert">
+    <None Include="fragment.fs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="light_fragment.frag">
+    <None Include="vertex.vs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="light_fragment.fs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -141,10 +144,5 @@
     <Image Include="gl_demo_ref.png">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="fragment.frag">
-      <Filter>Resource Files\Shaders</Filter>
-    </Text>
   </ItemGroup>
 </Project>

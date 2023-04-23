@@ -177,14 +177,12 @@
     <ClInclude Include="window_t.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="light_fragment.frag" />
-    <None Include="vertex.vert" />
+    <None Include="fragment.fs" />
+    <None Include="light_fragment.fs" />
+    <None Include="vertex.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="gl_demo_ref.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="fragment.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
