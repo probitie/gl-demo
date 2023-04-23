@@ -166,8 +166,9 @@ int main()
 	glm::vec3 a_diffuse_light{ 1.f, 1.f, 1.f };
 
 	//glm::vec3 a_diffuse_light_pos{ -2.f, -2.f, -2.f };
-	glm::vec3 a_diffuse_light_pos{ 2.f, 2.f, 2.f };
+	glm::vec3 a_diffuse_light_pos{ -1.49101830, 5.57218266, -2.88457513 };
 	//glm::vec3 a_diffuse_light_pos{ 0.f, 0.f, 2.f };
+
 
 	GLfloat light_movement{0.f};
 
@@ -195,7 +196,7 @@ int main()
 
 		mat.shader_program.setMatrix4f("model", model_coords);
 		mat.shader_program.setVector3f("a_diffuse_light", a_diffuse_light);
-		mat.shader_program.setVector3f("a_diffuse_light_pos", camera.get_position());
+		mat.shader_program.setVector3f("a_diffuse_light_pos", camera.get_position()); /// a_diffuse_light_pos
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();

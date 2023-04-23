@@ -28,5 +28,5 @@ void main()
     vec4 texel = texture(the_texture, texuv);
 
     // intensivity (another uniform) depends on 
-    FragColor = vec4(diffuse_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
+    FragColor = vec4(max(diffuse_light, ambient_light), 1.0f) * texel; // * vec4(ourColor, 1.0f));
 }
