@@ -95,6 +95,7 @@ int main()
 	vbo.unbind();
 	ebo.unbind();
 	
+	GLfloat rotation{};
 
 	// TODO pixels per second as a common speed metric
 
@@ -163,13 +164,13 @@ int main()
 
 	glm::vec3 a_diffuse_light_color{ 1.f, 1.f, 1.f };
 
-	glm::vec3 main_cube_position{ 0.f };
+
 	glm::vec3 light_cube_position{ -1.49101830f, 1.57218266f, -1.88457513f };
-	glm::vec3 light_cube_radius = light_cube_position;
+
 	glm::vec3 light_cube_center_offset(0.25f, 0.25f, 0.25f);
 
-	GLfloat rotation{};
-	GLfloat light_rotation{0.f};
+
+	GLfloat light_movement{0.f};
 
 	// free image from main RAM as it is already loaded into GRAM
 	stbi_image_free(texture_source);
@@ -185,10 +186,8 @@ int main()
 		mat.enable();
 		render.draw_context();
 
-		light_rotation += 20.f * delta;
 		glm::mat4 model_coords = glm::mat4(1.0f);
-		model_coords = glm::translate(model_coords, main_cube_position);
-		model_coords = glm::rotate(model_coords, glm::radians(light_rotation), glm::vec3(1.0f, 0.f, .0f));
+		//model_coords = glm::rotate(model_coords, glm::radians(rotation), glm::vec3(.0f, 1.f, .0f));
 
 		camera.apply(mat.shader_program);
 
@@ -209,12 +208,8 @@ int main()
 		// draw second white cube as a light source
 		light_shader.activate();
 		rotation += 30.f * delta;
-		model_coords = glm::mat4(1.0f);
-
-		// rotate around main cube
-		model_coords = glm::translate(model_coords, main_cube_position);
 		model_coords = glm::rotate(model_coords, glm::radians(30.f * delta), glm::vec3(.0f, 1.f, .0f));
-		model_coords = glm::translate(model_coords, light_cube_radius);
+		model_coords = glm::translate(model_coords, light_cube_position);
 
 		light_cube_position = glm::vec3(model_coords[3]);
 
