@@ -18,6 +18,7 @@ public:
 
 	// it is better not to use ref here
 	const glm::vec3& get_position() const { return position; }
+	const glm::vec3& get_direction() const { return direction; }
 
 	/**
 	 * \brief moves camera to specific point

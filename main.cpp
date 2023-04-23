@@ -163,7 +163,8 @@ int main()
 	glm::vec3 ambient_light_color{ 1.f, 1.f, 1.f };
 
 	glm::vec3 a_diffuse_light_color{ 1.f, 1.f, 1.f };
-
+	
+	glm::vec3 specular_light_color{ 1.f, 1.f, 1.f };
 
 	glm::vec3 light_cube_position{ -1.49101830f, 1.57218266f, -1.88457513f };
 
@@ -197,7 +198,8 @@ int main()
 		mat.shader_program.setMatrix4f("model", model_coords);
 		mat.shader_program.setVector3f("a_diffuse_light_color", a_diffuse_light_color);
 		mat.shader_program.setVector3f("diffuse_light_pos", light_cube_center); /// a_diffuse_light_pos camera.get_position()
-		mat.shader_program.setVector3f("a_specular_light_pos", light_cube_center); /// camera.get_position()
+		mat.shader_program.setVector3f("a_specular_light", specular_light_color); /// camera.get_position()
+		mat.shader_program.setVector3f("a_specular_light_pos", camera.get_position()); /// camera.get_position() light_cube_center
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();

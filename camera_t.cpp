@@ -100,11 +100,15 @@ void camera_t::apply(
 
 	// pushing uniforms to the shader
 	int view_loc, projection_loc;
+
+	// todo use shader_program methods
 	DBG(view_loc = glGetUniformLocation(shader_program.ID, view_uniform_name));
 	DBG(projection_loc = glGetUniformLocation(shader_program.ID, proj_uniform_name));
 
 	DBG(glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view)));
 	DBG(glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(proj)));
+
+	shader_program.setVector3f("camera_pos", position);
 }
 
 void camera_t::set_up_direction(const glm::vec3& new_up)
