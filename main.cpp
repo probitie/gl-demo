@@ -166,7 +166,7 @@ int main()
 	
 	glm::vec3 specular_light_color{ 1.f, 1.f, 1.f };
 
-	glm::vec3 light_cube_position{ -1.49101830f, 1.57218266f, -1.88457513f };
+	glm::vec3 light_cube_position{ -1.49101830f, 0, -1.88457513f };
 
 	glm::vec3 light_cube_center_offset(0.25f, 0.25f, 0.25f);
 
@@ -199,7 +199,7 @@ int main()
 		mat.shader_program.setVector3f("a_diffuse_light_color", a_diffuse_light_color);
 		mat.shader_program.setVector3f("diffuse_light_pos", light_cube_center); /// a_diffuse_light_pos camera.get_position()
 		mat.shader_program.setVector3f("a_specular_light", specular_light_color); /// camera.get_position()
-		mat.shader_program.setVector3f("a_specular_light_pos", camera.get_position()); /// camera.get_position() light_cube_center
+		mat.shader_program.setVector3f("a_specular_light_pos", light_cube_center); /// camera.get_position() light_cube_center
 
 		DBG(glBindTexture(GL_TEXTURE_2D, texture));
 		vao.bind();
@@ -210,7 +210,7 @@ int main()
 		// draw second white cube as a light source
 		light_shader.activate();
 		rotation += 30.f * delta;
-		model_coords = glm::rotate(model_coords, glm::radians(60.f * delta), glm::normalize(glm::vec3(.0f, 1.f, .7f)));
+		model_coords = glm::rotate(model_coords, glm::radians(60.f * delta), glm::normalize(glm::vec3(.0f, 1.f, .2f)));
 		model_coords = glm::translate(model_coords, light_cube_position);
 
 		light_cube_position = glm::vec3(model_coords[3]);

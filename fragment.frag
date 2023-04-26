@@ -24,20 +24,20 @@ void main()
 
 
 
-    float ambient_strength = 0.2f;
+    float ambient_strength = 0.3f;
     vec3 ambient_light = ambient_strength * ambient_light_color;
 
 
 
-    float diffuse_strength = 1.0f;
+    float diffuse_strength = 0.5f;
     float diffuse_impact_ratio = max(dot(norm, light_ray_direction), 0.0f);
-    vec3 diffuse_light = diffuse_impact_ratio * a_diffuse_light_color;
+    vec3 diffuse_light = diffuse_impact_ratio * a_diffuse_light_color * diffuse_strength;
 
 
-    float specular_strength = 0.7f;
+    float specular_strength = 0.6f;
 
     // 2 - more like diffuse - 256 - more like just a light dot
-    float specular_beam_size_ratio = 32; 
+    float specular_beam_size_ratio = 64; 
     vec3 view_dir = normalize(camera_pos - pxpos);
     vec3 reflected_beam = reflect(-light_ray_direction, norm);
 
@@ -46,5 +46,5 @@ void main()
     vec3 specular_light = specular_strength * specular_distribution * a_specular_light;
 
 
-    result_color = vec4(specular_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
+    result_color = vec4(ambient_light + diffuse_light + specular_light, 1.0f) * texel; // * vec4(ourColor, 1.0f));
 }
